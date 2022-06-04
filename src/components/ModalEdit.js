@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-// import { ReactElement } from 'react'
 import { Modal, Fade, Backdrop, Typography, styled, Card, Stack } from '@mui/material'
 
 const ContentStyle = styled(Card)(({ theme }) => ({
@@ -9,12 +8,18 @@ const ContentStyle = styled(Card)(({ theme }) => ({
   padding: theme.spacing(2),
 }))
 
+const BodyModal = styled('div')(({ theme }) => ({
+  overflowY: 'auto',
+  maxHeight: '80vh',
+  paddingTop: theme.spacing(1)
+}))
+
 ModalEdit.propTypes = {
   isOpen: PropTypes.bool,
   handleClose: PropTypes.func,
   modalWidth: PropTypes.string,
   title: PropTypes.string,
-  // form: ReactElement
+  form: PropTypes.any
 }
 
 export function ModalEdit({
@@ -46,7 +51,9 @@ export function ModalEdit({
               {title}
             </Typography>
           </Stack>
-          {form}
+          <BodyModal>
+            {form}
+          </BodyModal>
         </ContentStyle>
       </Fade>
     </Modal>
