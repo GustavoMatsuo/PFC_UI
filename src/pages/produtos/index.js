@@ -4,9 +4,10 @@ import { PageHeaderList } from 'src/components/PageHeaderList'
 import { ModalEdit } from 'src/components/ModalEdit'
 import { ProdutoForm } from './ProdutoForm'
 import { ProdutoCard } from './ProdutoCard'
+import { ModalCategoria } from 'src/modals/modalCategoria'
 import api from 'src/config/api'
 
-export default function EcommerceShop() {
+export default function Produto() {
   // const [openFilter, setOpenFilter] = useState(false)
   const [produtoList, setProdutoList] = useState([])
   const [showModal, setShowModal] = useState(false)
@@ -14,6 +15,7 @@ export default function EcommerceShop() {
   const [selectedProduto, setSelectedProduto] = useState(null)
   const [fornecedorList, setFornecedorList] = useState([])
   const [categoriaList, setCategoriaList] = useState([])
+  const [showCategoria, setShowCategoria] = useState(false)
 
   useEffect(() => {
     getProdutoList()
@@ -60,6 +62,15 @@ export default function EcommerceShop() {
     setShowModal(true)
   }
 
+  const openCategoria = () => {
+    setShowCategoria(true)
+  }
+
+  const closeCategoria = () => {
+    setShowCategoria(false)
+    getCategoriaNameList()
+  }
+
   return (
     <Container>
       <PageHeaderList
@@ -93,8 +104,13 @@ export default function EcommerceShop() {
             getProdutoList={getProdutoList}
             fornecedorList={fornecedorList}
             categoriaList={categoriaList}
+            openCategoria={openCategoria}
           />
         }   
+      />
+      <ModalCategoria
+        isOpen={showCategoria}
+        handleClose={closeCategoria}
       />
     </Container>
   )

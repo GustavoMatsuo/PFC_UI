@@ -1,8 +1,19 @@
 import * as Yup from 'yup'
 import PropTypes from 'prop-types'
 import { useFormik, Form, FormikProvider } from 'formik'
-import { TextField, Grid, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material'
+import { 
+  TextField, 
+  Grid, 
+  FormControl, 
+  InputLabel, 
+  Select, 
+  MenuItem, 
+  FormHelperText, 
+  Button, 
+  Tooltip
+} from '@mui/material'
 import { LoadingButton } from '@mui/lab'
+import Iconify from 'src/components/Iconify'
 import api from '../../config/api'
 
 ProdutoForm.propTypes = {
@@ -11,7 +22,8 @@ ProdutoForm.propTypes = {
   closeModal: PropTypes.func,
   getProdutoList: PropTypes.func,
   fornecedorList: PropTypes.array,
-  categoriaList: PropTypes.array
+  categoriaList: PropTypes.array,
+  openCategoria: PropTypes.func
 }
 
 export function ProdutoForm({
@@ -20,7 +32,8 @@ export function ProdutoForm({
   closeModal,
   getProdutoList,
   fornecedorList,
-  categoriaList
+  categoriaList,
+  openCategoria
 }) {
   const ProdutoSchema = Yup.object().shape({
     nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
@@ -127,7 +140,7 @@ export function ProdutoForm({
               helperText={touched.estoqueMinimo && errors.estoqueMinimo}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={10}>
             <FormControl fullWidth>
               <InputLabel error={Boolean(touched.categoria && errors.categoria)}>
                 Categoria
@@ -146,9 +159,33 @@ export function ProdutoForm({
               </FormHelperText>
             </FormControl>
           </Grid>
+          <Grid item xs={2}>
+            <Tooltip placement="top" title="Gerenciar categoria">
+              <Button 
+                sx={{ height: '53.2px' }}
+                fullWidth size="large" 
+                variant="outlined" 
+                loading={isSubmitting} 
+                onClick={openCategoria}
+              >
+                <Iconify
+                  icon="eva:pricetags-outline" 
+                  width={32} 
+                  height={32} 
+                />
+              </Button>
+            </Tooltip>
+          </Grid>
         </Grid>
 
-        <LoadingButton sx={{ my: 2 }} fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton 
+          sx={{ my: 2 }} 
+          fullWidth 
+          size="large" 
+          type="submit" 
+          variant="contained"
+          loading={isSubmitting}
+        >
           {isEdit? 'Atualizar':'Cadastrar'}
         </LoadingButton>
       </Form>
