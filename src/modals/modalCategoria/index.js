@@ -25,9 +25,9 @@ ModalCategoria.propTypes = {
   handleClose: PropTypes.func,
 }
 
-const TIME = 1000 
+const TIME = 500 
 
-export default function ModalCategoria({ isOpen, handleClose }) {
+export function ModalCategoria({ isOpen, handleClose }) {
   const [categoriaList, setCategoriaList] = useState([])
   const [isEdit, setIsEdit] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
