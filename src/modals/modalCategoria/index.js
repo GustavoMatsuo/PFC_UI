@@ -49,6 +49,11 @@ export function ModalCategoria({ isOpen, handleClose }) {
     getCategoriaList()
   }
 
+  const handleCloseCategoria = () => {
+    closeForm()
+    handleClose()
+  }
+
   const handleEdit = (categoria) => {
     setSelectedCategoria(categoria)
     setIsEdit(true)
@@ -75,7 +80,7 @@ export function ModalCategoria({ isOpen, handleClose }) {
     <Container>
       <ModalCustom
         isOpen={isOpen}
-        handleClose={handleClose}
+        handleClose={handleCloseCategoria}
         modalWidth='500px'
         content={
           <Grid>
