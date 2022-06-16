@@ -10,7 +10,7 @@ const navConfig = [
   // },
   {
     title: 'usuário',
-    path: '/dashboard/user',
+    path: '/dashboard/usuario',
     icon: getIcon('eva:people-fill')
   },
   {

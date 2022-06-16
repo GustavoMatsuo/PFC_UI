@@ -16,7 +16,7 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         // { path: 'app', element: <Dashboard /> },
-        { path: 'user', element: <User /> },
+        { path: 'usuario', element: <User /> },
         { path: 'fornecedor', element: <Fornecedor /> },
         { path: 'produto', element: <Produtos /> },
         { path: '*', element: <Navigate to="/404" /> },

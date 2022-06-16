@@ -24,7 +24,7 @@ export default function Page404() {
           Desculpe, mas não conseguimos encontrar a página que você está procurando.
         </Typography>
 
-        <Button to="/dashboard/user" size="large" variant="contained" component={RouterLink}>
+        <Button to="/dashboard/usuario" size="large" variant="contained" component={RouterLink}>
           Voltar
         </Button>
       </ContentStyle>

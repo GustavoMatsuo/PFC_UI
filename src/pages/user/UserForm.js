@@ -24,29 +24,29 @@ export function UserForm({
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const UserSchema = Yup.object().shape({
-    name: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
+    nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
     email: Yup.string().email('Email deve ser um endereço de e-mail válido').required('Email é obrigatório'),
-    role: Yup.string().required('Cargo é obrigatório'),
-    password: Yup.string().required('Senha é obrigatório').min(3, "Senha esta muito curta"),
-    confirmPassword: Yup.string().required('Confirmar Senha é obrigatório')
-      .oneOf([Yup.ref('password'), null], 'As senhas devem ser iguais')
+    cargo: Yup.string().required('Cargo é obrigatório'),
+    senha: Yup.string().required('Senha é obrigatório').min(3, "Senha esta muito curta"),
+    confirmSenha: Yup.string().required('Confirmar Senha é obrigatório')
+      .oneOf([Yup.ref('senha'), null], 'As senhas devem ser iguais')
   })
 
   const formik = useFormik({
     initialValues: {
-      id: isEdit? selectedUser.id:null,
+      id_usuario: isEdit? selectedUser.id_usuario:null,
       status: isEdit? selectedUser.status:null,
-      name: isEdit? selectedUser.name:'',
+      nome: isEdit? selectedUser.nome:'',
       email: isEdit? selectedUser.email:'',
-      role: isEdit? selectedUser.role:'',
-      password: isEdit? selectedUser.password:'',
-      confirmPassword: isEdit? selectedUser.password:'',
+      cargo: isEdit? selectedUser.cargo:'',
+      senha: isEdit? selectedUser.senha:'',
+      confirmSenha: isEdit? selectedUser.senha:'',
     },
     validationSchema: UserSchema,
     onSubmit: async(values, actions) => {
       try {
         const reqType = isEdit? 'put':'post'
-        await api[reqType]('/users', values)
+        await api[reqType]('/usuario', values)
         // const { status } = await api[reqType]('/users', values)
         // if(status == 201) {
           closeModal()
@@ -67,12 +67,12 @@ export function UserForm({
         <Stack spacing={3}>
           <TextField
             fullWidth
-            autoComplete="name"
+            autoComplete="nome"
             type="text"
             label="Nome"
-            {...getFieldProps('name')}
-            error={Boolean(touched.name && errors.name)}
-            helperText={touched.name && errors.name}
+            {...getFieldProps('nome')}
+            error={Boolean(touched.nome && errors.nome)}
+            helperText={touched.nome && errors.nome}
           />
           <TextField
             fullWidth
@@ -85,19 +85,19 @@ export function UserForm({
             helperText={touched.email && errors.email}
           />
           <FormControl fullWidth>
-            <InputLabel error={Boolean(touched.role && errors.role)}>
+            <InputLabel error={Boolean(touched.cargo && errors.cargo)}>
               Cargo
             </InputLabel>
             <Select
               label="Cargo"
-              {...getFieldProps('role')}
-              error={Boolean(touched.role && errors.role)}
+              {...getFieldProps('cargo')}
+              error={Boolean(touched.cargo && errors.cargo)}
             >
               <MenuItem value='employee'>Funcionário</MenuItem>
               <MenuItem value='admin'>Administrador</MenuItem>
             </Select>
-            <FormHelperText error={Boolean(touched.role && errors.role)}>
-              {touched.role && errors.role}
+            <FormHelperText error={Boolean(touched.cargo && errors.cargo)}>
+              {touched.cargo && errors.cargo}
             </FormHelperText>
           </FormControl>
           <TextField
@@ -105,7 +105,7 @@ export function UserForm({
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Senha"
-            {...getFieldProps('password')}
+            {...getFieldProps('senha')}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -115,15 +115,15 @@ export function UserForm({
                 </InputAdornment>
               ),
             }}
-            error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
+            error={Boolean(touched.senha && errors.senha)}
+            helperText={touched.senha && errors.senha}
           />
           <TextField
             fullWidth
             autoComplete="current-password"
             type={showConfirmPassword ? 'text' : 'password'}
             label="Confirmar Senha"
-            {...getFieldProps('confirmPassword')}
+            {...getFieldProps('confirmSenha')}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -133,8 +133,8 @@ export function UserForm({
                 </InputAdornment>
               ),
             }}
-            error={Boolean(touched.confirmPassword && errors.confirmPassword)}
-            helperText={touched.confirmPassword && errors.confirmPassword}
+            error={Boolean(touched.confirmSenha && errors.confirmSenha)}
+            helperText={touched.confirmSenha && errors.confirmSenha}
           />
         </Stack>
 

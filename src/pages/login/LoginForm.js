@@ -27,9 +27,9 @@ export function LoginForm() {
     onSubmit: async(values, actions) => {
       try {
         setUserDisabled(false)
-        const { status } = await api.post("/users/login", values)
+        const { status } = await api.post("/usuario/login", values)
         if(status === 200) {
-          navigate('/dashboard/user', { replace: true })
+          navigate('/dashboard/usuario', { replace: true })
         }
       }catch(e) {
         const { data, status } = e.response

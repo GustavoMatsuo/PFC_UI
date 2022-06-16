@@ -25,9 +25,9 @@ import { ModalEdit } from 'src/components/ModalEdit'
 import api from 'src/config/api'
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Nome', alignRight: false },
+  { id: 'nome', label: 'Nome', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
-  { id: 'role', label: 'Cargo', alignRight: false },
+  { id: 'cargo', label: 'Cargo', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ]
@@ -56,7 +56,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1]
   })
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+    return filter(array, (_user) => _user.nome.toLowerCase().indexOf(query.toLowerCase()) !== -1)
   }
   return stabilizedThis.map((el) => el[0])
 }
@@ -78,7 +78,7 @@ export default function User() {
   },[])
 
   const getUserList = async() => {
-    const { data } = await api.get('/users', {
+    const { data } = await api.get('/usuario', {
       params:{
         limit: rowsPerPage,
         skip: page
@@ -109,7 +109,7 @@ export default function User() {
   }
 
   const handleChangeStatus = async(id) => {
-    await api.put('/users/status', { id })
+    await api.put('/usuario/status', { id })
     getUserList()
   }
 
@@ -150,24 +150,24 @@ export default function User() {
               />
               <TableBody>
                 {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                  const { id, name, email, role, status } = row
+                  const { id_usuario, nome, email, cargo, status } = row
 
                   return (
                     <TableRow
                       hover
-                      key={id}
+                      key={id_usuario}
                       tabIndex={-1}
                     >
                       <TableCell component="th" scope="row">
                         <Stack direction="row" alignItems="center" spacing={2}>
-                          <Avatar alt={name} />
+                          <Avatar alt={nome} />
                           <Typography variant="subtitle2" noWrap>
-                            {name}
+                            {nome}
                           </Typography>
                         </Stack>
                       </TableCell>
                       <TableCell align="left">{email}</TableCell>
-                      <TableCell align="left">{role}</TableCell>
+                      <TableCell align="left">{cargo}</TableCell>
                       <TableCell align="left">
                         <Label variant="ghost" color={(!status && 'error') || 'success'}>
                           {status? 'Ativo':'Inativo'}
@@ -177,7 +177,7 @@ export default function User() {
                       <TableCell align="right">
                         <TableMoreMenu
                           status={status}
-                          handleChangeStatus={() => handleChangeStatus(id)}
+                          handleChangeStatus={() => handleChangeStatus(id_usuario)}
                           handleEdit={() => handleEditUser(row)}
                         />
                       </TableCell>
