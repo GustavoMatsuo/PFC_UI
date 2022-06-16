@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material/styles'
 import { Container, Typography } from '@mui/material'
 
 export default function Dashboard() {
