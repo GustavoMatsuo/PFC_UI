@@ -3,11 +3,11 @@ import Iconify from '../../components/Iconify'
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />
 
 const navConfig = [
-  // {
-  //   title: 'dashboard',
-  //   path: '/dashboard/app',
-  //   icon: getIcon('eva:pie-chart-2-fill')
-  // },
+  {
+    title: 'dashboard',
+    path: '/dashboard/app',
+    icon: getIcon('eva:pie-chart-2-fill')
+  },
   {
     title: 'usuário',
     path: '/dashboard/usuario',
@@ -22,6 +22,16 @@ const navConfig = [
     title: 'produto',
     path: '/dashboard/produto',
     icon: getIcon('eva:shopping-bag-fill'),
+  },
+  {
+    title: 'entrada',
+    path: '/dashboard/entrada',
+    icon: getIcon('eva:clipboard-fill'),
+  },
+  {
+    title: 'venda',
+    path: '/dashboard/saida',
+    icon: getIcon('eva:shopping-cart-fill'),
   }
 ]
 
