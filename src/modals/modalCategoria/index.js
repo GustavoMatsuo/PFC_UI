@@ -34,7 +34,6 @@ export function ModalCategoria({ isOpen, handleClose }) {
   const [hideForm, setHideForm] = useState(false)
   const [selectedCategoria, setSelectedCategoria] = useState(null)
 
-
   useEffect(() => {
     getCategoriaList()
   }, [])
@@ -55,14 +54,14 @@ export function ModalCategoria({ isOpen, handleClose }) {
   }
 
   const handleEdit = (categoria) => {
-    setSelectedCategoria(categoria)
     setIsEdit(true)
+    setSelectedCategoria(categoria)
     openForm()
   } 
 
   const handleNew = () => {
-    setSelectedCategoria(null)
     setIsEdit(false)
+    setSelectedCategoria({})
     openForm()
   }
 
@@ -73,6 +72,7 @@ export function ModalCategoria({ isOpen, handleClose }) {
 
   const closeForm = () => {
     setIsFormOpen(false)
+    setIsEdit(true)
     setTimeout(() => setHideForm(false), TIME)
   }
 
@@ -81,27 +81,27 @@ export function ModalCategoria({ isOpen, handleClose }) {
       <ModalCustom
         isOpen={isOpen}
         handleClose={handleCloseCategoria}
-        modalWidth='500px'
+        modalWidth='550px'
         content={
           <Grid>
-          <PageHeaderList
-            title='Categoria'
-            buttonTitle='Nova categoria'
-            addButton={handleNew}
-          />
+            <PageHeaderList
+              title='Categoria'
+              buttonTitle='Nova categoria'
+              addButton={handleNew}
+            />
             <Grow
               in={isFormOpen}
               timeout={TIME}
               style={{ display: `${hideForm? 'block':'none'}`}}
             >
-              <Paper elevation={0}>
+              <div>
                 <ModalCategoriaForm
                   isEdit={isEdit}
                   closeForm={closeForm}
                   selectedCategoria={selectedCategoria}
                   getCategoriaList={getCategoriaList}
                 />
-              </Paper>
+              </div>
             </Grow>
             <List
               sx={{

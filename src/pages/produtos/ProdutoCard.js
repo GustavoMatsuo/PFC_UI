@@ -27,7 +27,7 @@ export function ProdutoCard({
   onChangeStatus,
   onEdit
 }) {
-  const { nome, valorUnitario, status } = product
+  const { nome, valor_unitario, status } = product
 
   return (
     <Card>
@@ -60,7 +60,7 @@ export function ProdutoCard({
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Typography variant="subtitle2">
-              R$&nbsp;{fCurrency(valorUnitario)}
+              R$&nbsp;{fCurrency(valor_unitario)}
           </Typography>
         </Stack>
       </Stack>

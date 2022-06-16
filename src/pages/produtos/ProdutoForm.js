@@ -38,9 +38,8 @@ export function ProdutoForm({
   const ProdutoSchema = Yup.object().shape({
     nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
     fornecedor: Yup.string().required('Fornecedor é obrigatório'),
-    valorUnitario: Yup.string().required("Valor unitário é obrigatório"),
-    qtdEstoque: Yup.string().required("Quantidade em estoque é obrigatório"),
-    estoqueMinimo: Yup.string().required("Estoque minimo é obrigatório"),
+    valor_unitario: Yup.number().required("Valor unitário é obrigatório"),
+    estoque_minimo: Yup.number().required("Estoque minimo é obrigatório"),
     categoria: Yup.string().required("Categoria é obrigatório")
   })
 
@@ -49,9 +48,8 @@ export function ProdutoForm({
       id_produto: isEdit? selectedProduto.id_produto:"",
       nome: isEdit? selectedProduto.nome:"",
       fornecedor: isEdit? selectedProduto.fornecedor.id_fornecedor:"",
-      valorUnitario: isEdit? selectedProduto.valorUnitario:null, 
-      qtdEstoque: isEdit? selectedProduto.qtdEstoque:null,
-      estoqueMinimo: isEdit? selectedProduto.estoqueMinimo:null,
+      valor_unitario: isEdit? selectedProduto.valor_unitario:undefined, 
+      estoque_minimo: isEdit? selectedProduto.estoque_minimo:undefined,
       categoria: isEdit? selectedProduto.categoria.id_categoria:""
     },
     validationSchema: ProdutoSchema,
@@ -107,37 +105,26 @@ export function ProdutoForm({
               </FormHelperText>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <TextField
               fullWidth
               autoComplete="numero"
               type="number"
               label="Valor Unitário"
-              {...getFieldProps('valorUnitario')}
-              error={Boolean(touched.numero && errors.valorUnitario)}
-              helperText={touched.valorUnitario && errors.valorUnitario}
+              {...getFieldProps('valor_unitario')}
+              error={Boolean(touched.numero && errors.valor_unitario)}
+              helperText={touched.valor_unitario && errors.valor_unitario}
             />
           </Grid>
-          <Grid item xs={4}>
-            <TextField
-              fullWidth
-              autoComplete="numero"
-              type="number"
-              label="Quantidade em estoque"
-              {...getFieldProps('qtdEstoque')}
-              error={Boolean(touched.qtdEstoque && errors.qtdEstoque)}
-              helperText={touched.qtdEstoque && errors.qtdEstoque}
-            />
-          </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <TextField
               fullWidth
               autoComplete="numero"
               type="number"
               label="Estoque Minimo"
-              {...getFieldProps('estoqueMinimo')}
-              error={Boolean(touched.numero && errors.estoqueMinimo)}
-              helperText={touched.estoqueMinimo && errors.estoqueMinimo}
+              {...getFieldProps('estoque_minimo')}
+              error={Boolean(touched.estoque_minimo && errors.estoque_minimo)}
+              helperText={touched.estoque_minimo && errors.estoque_minimo}
             />
           </Grid>
           <Grid item xs={10}>
