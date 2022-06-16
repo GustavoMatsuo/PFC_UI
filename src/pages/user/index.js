@@ -23,6 +23,7 @@ import { TableMoreMenu } from 'src/components/TableMoreMenu'
 import { UserForm } from './UserForm'
 import { ModalEdit } from 'src/components/ModalEdit'
 import api from 'src/config/api'
+import { sortFilter } from 'src/utils/sortFilter'
 
 const TABLE_HEAD = [
   { id: 'nome', label: 'Nome', alignRight: false },
@@ -31,35 +32,6 @@ const TABLE_HEAD = [
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ]
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
-  return 0
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
-}
-
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index])
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
-    if (order !== 0) return order
-    return a[1] - b[1]
-  })
-  if (query) {
-    return filter(array, (_user) => _user.nome.toLowerCase().indexOf(query.toLowerCase()) !== -1)
-  }
-  return stabilizedThis.map((el) => el[0])
-}
 
 export default function User() {
   const [page, setPage] = useState(0)
@@ -124,7 +96,7 @@ export default function User() {
     setShowModal(true)
   }
 
-  const filteredUsers = applySortFilter(userList, getComparator(order, orderBy), filterName)
+  const filteredUsers = sortFilter(userList, order, orderBy, filterName)
 
   const isUserNotFound = filteredUsers.length === 0
 
