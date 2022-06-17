@@ -97,7 +97,9 @@ export function ProdutoForm({
                 error={Boolean(touched.fornecedor && errors.fornecedor)}
               >
                 {fornecedorList.map(item => (
-                  <MenuItem value={item.id_fornecedor}>{item.nome}</MenuItem>
+                  <MenuItem key={item.id_fornecedor} value={item.id_fornecedor}>
+                    {item.nome}
+                  </MenuItem>
                 ))}
               </Select>
               <FormHelperText error={Boolean(touched.fornecedor && errors.fornecedor)}>
@@ -138,7 +140,9 @@ export function ProdutoForm({
                 error={Boolean(touched.categoria && errors.categoria)}
               >
                 {categoriaList.map(item => (
-                  <MenuItem value={item.id_categoria}>{item.nome}</MenuItem>
+                  <MenuItem key={item.id_categoria} value={item.id_categoria}>
+                    {item.nome}
+                  </MenuItem>
                 ))}
               </Select>
               <FormHelperText error={Boolean(touched.categoria && errors.categoria)}>
@@ -152,7 +156,6 @@ export function ProdutoForm({
                 sx={{ height: '53.2px' }}
                 fullWidth size="large" 
                 variant="outlined" 
-                loading={isSubmitting} 
                 onClick={openCategoria}
               >
                 <Iconify

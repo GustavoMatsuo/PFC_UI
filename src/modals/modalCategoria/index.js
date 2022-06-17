@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { Container, 
   Grid, 
   Typography, 
@@ -118,9 +118,9 @@ export function ModalCategoria({ isOpen, handleClose }) {
               {categoriaList.map((item, index) => {
                 const { nome, cor, status } = item
                 return (
-                  <>
+                  <Fragment key={index}>
                     {index !== 0 && <Divider />}
-                    <ListItem key={index} disableGutters>
+                    <ListItem disableGutters>
                       <ListItemAvatar>
                         <Avatar sx={{ backgroundColor: `#${cor}` }}>
                           <Iconify 
@@ -163,7 +163,7 @@ export function ModalCategoria({ isOpen, handleClose }) {
                         handleEdit={() => handleEdit(item)}
                       />
                     </ListItem>
-                  </>
+                  </Fragment>
                 )
               })}
             </List>

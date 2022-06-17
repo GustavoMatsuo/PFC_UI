@@ -84,12 +84,12 @@ export function ModalCategoriaForm({
             </FormControl>
           </Grid>
           <Grid item xs={6}>
-            <Button fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+            <Button fullWidth size="large" type="submit" variant="contained">
               {isEdit? 'Atualizar':'Cadastrar'}
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Button fullWidth size="large" color='error' variant="contained" loading={isSubmitting} onClick={closeForm}>
+            <Button fullWidth size="large" color='error' variant="contained" onClick={closeForm}>
               Cancelar
             </Button>
           </Grid>
