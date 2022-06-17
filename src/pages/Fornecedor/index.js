@@ -97,7 +97,7 @@ export default function Fornecedor() {
     setShowModal(true)
   }
 
-  const filteredFornecedor = sortFilter(fornecedorList, order, orderBy, filterName)
+  const filteredFornecedor = sortFilter(fornecedorList, order, orderBy, filterName, 'nome')
 
   const isFornecedorNotFound = filteredFornecedor.length === 0
 

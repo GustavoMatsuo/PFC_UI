@@ -16,7 +16,7 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
-export function sortFilter(array, order, orderBy, query) {
+export function sortFilter(array, order, orderBy, query, queryProp) {
   const comparator = getComparator(order, orderBy)
   const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
@@ -25,7 +25,7 @@ export function sortFilter(array, order, orderBy, query) {
     return a[1] - b[1]
   })
   if (query) {
-    return filter(array, (item) => item.nome.toLowerCase().indexOf(query.toLowerCase()) !== -1)
+    return filter(array, (item) => item[queryProp].toLowerCase().indexOf(query.toLowerCase()) !== -1)
   }
   return stabilizedThis.map((el) => el[0])
 }

@@ -96,7 +96,7 @@ export default function User() {
     setShowModal(true)
   }
 
-  const filteredUsers = sortFilter(userList, order, orderBy, filterName)
+  const filteredUsers = sortFilter(userList, order, orderBy, filterName, 'nome')
 
   const isUserNotFound = filteredUsers.length === 0
 
