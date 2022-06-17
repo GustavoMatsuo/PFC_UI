@@ -47,7 +47,7 @@ export function ModalCategoriaForm({
     }
   })
 
-  const { errors, touched, isSubmitting, handleSubmit, getFieldProps, setFieldValue } = formik
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik
 
   return (
     <FormikProvider value={formik}>

@@ -10,7 +10,7 @@ import { Container,
   ListItemAvatar,
   Divider,
   Grow,
-  Paper
+  useTheme
 } from '@mui/material'
 import { PageHeaderList } from 'src/components/PageHeaderList'
 import { ModalCustom } from 'src/components/ModalCustom'
@@ -72,9 +72,11 @@ export function ModalCategoria({ isOpen, handleClose }) {
 
   const closeForm = () => {
     setIsFormOpen(false)
-    setIsEdit(true)
+    setTimeout(() => setIsEdit(true), (TIME - 100))
     setTimeout(() => setHideForm(false), TIME)
   }
+
+  const theme = useTheme()
 
   return (
     <Container>
@@ -92,7 +94,10 @@ export function ModalCategoria({ isOpen, handleClose }) {
             <Grow
               in={isFormOpen}
               timeout={TIME}
-              style={{ display: `${hideForm? 'block':'none'}`}}
+              style={{ 
+                display: `${hideForm? 'block':'none'}`, 
+                paddingBottom: theme.spacing(2)
+              }}
             >
               <div>
                 <ModalCategoriaForm
@@ -107,7 +112,7 @@ export function ModalCategoria({ isOpen, handleClose }) {
               sx={{
                 overflow: 'auto',
                 width: '100%',
-                maxHeight: '60vh',
+                maxHeight: '50vh',
               }}
             >
               {categoriaList.map((item, index) => {

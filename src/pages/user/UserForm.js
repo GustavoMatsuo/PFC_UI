@@ -138,7 +138,14 @@ export function UserForm({
           />
         </Stack>
 
-        <LoadingButton sx={{ my: 2 }} fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton 
+          sx={{ mt: 2 }} 
+          fullWidth 
+          size="large" 
+          type="submit" 
+          variant="contained" 
+          loading={isSubmitting}
+        >
           {isEdit? 'Atualizar':'Cadastrar'}
         </LoadingButton>
       </Form>
