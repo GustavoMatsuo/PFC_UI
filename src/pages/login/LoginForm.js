@@ -15,13 +15,13 @@ export function LoginForm() {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email deve ser um endereço de e-mail válido').required('Email é obrigatório'),
-    password: Yup.string().required('Senha é obrigatório')
+    senha: Yup.string().required('Senha é obrigatório')
   })
 
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: ''
+      senha: ''
     },
     validationSchema: LoginSchema,
     onSubmit: async(values, actions) => {
@@ -35,7 +35,7 @@ export function LoginForm() {
         const { data, status } = e.response
         if(status === 401) {
           actions.setFieldError('email', data.msg)
-          actions.setFieldError('password', data.msg)
+          actions.setFieldError('senha', data.msg)
         }else {
           setUserDisabled(true)
         }
@@ -69,7 +69,7 @@ export function LoginForm() {
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
             label="Senha"
-            {...getFieldProps('password')}
+            {...getFieldProps('senha')}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -79,12 +79,12 @@ export function LoginForm() {
                 </InputAdornment>
               ),
             }}
-            error={Boolean(touched.password && errors.password)}
-            helperText={touched.password && errors.password}
+            error={Boolean(touched.senha && errors.senha)}
+            helperText={touched.senha && errors.senha}
           />
         </Stack>
 
-        <LoadingButton sx={{ my: 2 }} fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton sx={{ mb: 1, mt: 3 }} fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
           Entrar
         </LoadingButton>
       </Form>
