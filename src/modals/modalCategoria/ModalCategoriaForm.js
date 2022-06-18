@@ -83,9 +83,10 @@ export function ModalCategoriaForm({
                 {...getFieldProps('cor')}
                 error={Boolean(touched.cor && errors.cor)}
               >
-                <MenuItem value='F00'>Vermelho</MenuItem>
-                <MenuItem value='0F0'>Verde</MenuItem>
-                <MenuItem value='00F'>Azul</MenuItem>
+                <MenuItem value='F94C66'>Vermelho</MenuItem>
+                <MenuItem value='53BF9D'>Verde</MenuItem>
+                <MenuItem value='FFC54D'>Amarelo</MenuItem>
+                <MenuItem value='BD4291'>Roxo</MenuItem>
               </Select>
               <FormHelperText error={Boolean(touched.cor && errors.cor)}>
                 {touched.cor && errors.cor}
