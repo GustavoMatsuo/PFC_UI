@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useCallback } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
 import { Box, Drawer } from '@mui/material'
@@ -29,7 +29,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const isDesktop = useResponsive('up', 'lg')
   
   /* eslint-disable */
-  useCallback(() => {
+  useEffect(() => {
     if (isOpenSidebar) {
       onCloseSidebar()
     }
