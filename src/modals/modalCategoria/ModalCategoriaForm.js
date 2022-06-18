@@ -1,7 +1,16 @@
 import * as Yup from 'yup'
 import PropTypes from 'prop-types'
 import { useFormik, Form, FormikProvider } from 'formik'
-import { TextField, Grid, FormControl, Select, MenuItem, FormHelperText, InputLabel, Button } from '@mui/material'
+import { 
+  TextField, 
+  Grid, 
+  FormControl, 
+  Select,
+  MenuItem, 
+  FormHelperText, 
+  InputLabel, 
+  Button 
+} from '@mui/material'
 import api from '../../config/api'
 
 ModalCategoriaForm.propTypes = {
@@ -47,7 +56,7 @@ export function ModalCategoriaForm({
     }
   })
 
-  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik
+  const { errors, touched, handleSubmit, getFieldProps } = formik
 
   return (
     <FormikProvider value={formik}>
