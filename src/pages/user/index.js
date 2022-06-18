@@ -101,7 +101,7 @@ export default function User() {
   const isUserNotFound = filteredUsers.length === 0
 
   return (
-    <Container>
+    <>
       <PageHeaderList
         title='Usuário'
         buttonTitle='Novo usuário'
@@ -190,6 +190,6 @@ export default function User() {
           />
         }   
       />
-    </Container>
+    </>
   )
 }

@@ -186,7 +186,7 @@ export default function Entrada() {
   const isEntradaNotFound = filteredEntrada.length === 0
 
   return (
-    <Container>
+    <div>
       <PageHeaderList
         title='Entrada'
         buttonTitle='Nova Entrada'
@@ -327,6 +327,6 @@ export default function Entrada() {
           />
         }   
       />
-    </Container>
+    </div>
   )
 }

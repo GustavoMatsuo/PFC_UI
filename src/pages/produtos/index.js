@@ -72,7 +72,7 @@ export default function Produto() {
   }
 
   return (
-    <Container>
+    <>
       <PageHeaderList
         title='Produtos'
         buttonTitle='Novo produto'
@@ -81,7 +81,7 @@ export default function Produto() {
 
       <Grid container spacing={3}>
         {produtoList.map((product, index) => (
-          <Grid key={index} item xs={12} sm={6} md={3}>
+          <Grid key={index} item xs={12} sm={4} md={3} xl={2}>
             <ProdutoCard 
               product={product}
               onChangeStatus={() => handleChangeStatus(product.id_produto)}
@@ -112,6 +112,6 @@ export default function Produto() {
         isOpen={showCategoria}
         handleClose={closeCategoria}
       />
-    </Container>
+    </>
   )
 }

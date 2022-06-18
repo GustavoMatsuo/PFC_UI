@@ -102,7 +102,7 @@ export default function Fornecedor() {
   const isFornecedorNotFound = filteredFornecedor.length === 0
 
   return (
-    <Container>
+    <>
       <PageHeaderList
         title='Fornecedor'
         buttonTitle='Novo Fornecedor'
@@ -190,6 +190,6 @@ export default function Fornecedor() {
           />
         }   
       />
-    </Container>
+    </>
   )
 }
