@@ -11,7 +11,6 @@ const ContentStyle = styled(Card)(({ theme }) => ({
 const BodyModal = styled('div')(({ theme }) => ({
   overflowY: 'auto',
   maxHeight: '80vh',
-  paddingTop: theme.spacing(1)
 }))
 
 ModalEdit.propTypes = {
@@ -36,7 +35,7 @@ export function ModalEdit({
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
-        timeout: 500,
+        timeout: 0,
       }}
       sx={{
         display: 'flex',
@@ -46,7 +45,12 @@ export function ModalEdit({
     >
       <Fade in={isOpen}>
         <ContentStyle sx={{width: modalWidth}}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={3}>
+          <Stack 
+            mb={2}
+            direction="row" 
+            alignItems="center" 
+            justifyContent="space-between" 
+          >
             <Typography variant="h4" noMargin>
               {title}
             </Typography>
