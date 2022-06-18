@@ -5,9 +5,10 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout'
 import Login from './pages/login'
 import User from './pages/user'
 import Produtos from './pages/produtos'
-// import Dashboard from './pages/dashboard'
+import Dashboard from './pages/dashboard'
 import Page404 from './pages/page_404'
 import Fornecedor from './pages/Fornecedor'
+import Entrada from './pages/Entrada'
 
 export default function Router() {
   return useRoutes([
@@ -15,10 +16,11 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        // { path: 'app', element: <Dashboard /> },
+        { path: 'app', element: <Dashboard /> },
         { path: 'usuario', element: <User /> },
         { path: 'fornecedor', element: <Fornecedor /> },
         { path: 'produto', element: <Produtos /> },
+        { path: 'entrada', element: <Entrada /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },
