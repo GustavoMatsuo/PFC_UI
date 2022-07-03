@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { alpha, styled } from '@mui/material/styles'
-import { Box, AppBar, Toolbar, IconButton } from '@mui/material'
+import { Box, AppBar, Toolbar, IconButton, Typography } from '@mui/material'
 import Iconify from '../../components/Iconify'
 import AccountPopover from './AccountPopover'
 
@@ -30,6 +30,13 @@ DashboardNavbar.propTypes = {
   onOpenSidebar: PropTypes.func,
 }
 
+const TitleNavBar = () => {
+  let title = String(window.location.pathname).toLowerCase()
+  title = title.replace('/dashboard', '').replaceAll('/', '')
+  title = title.charAt(0).toUpperCase() + title.slice(1)
+  return <Typography variant="h4" noMargin color='black'>{title}</Typography>
+}
+
 export default function DashboardNavbar({ onOpenSidebar }) {
   return (
     <RootStyle>
@@ -37,6 +44,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
         <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary', display: { lg: 'none' } }}>
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
+        <TitleNavBar/>
         <Box sx={{ flexGrow: 1 }} />
         <AccountPopover />
       </ToolbarStyle>
