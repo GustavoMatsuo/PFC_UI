@@ -11,6 +11,7 @@ const ContentStyle = styled(Card)(({ theme }) => ({
 const BodyModal = styled('div')(({ theme }) => ({
   overflowY: 'auto',
   maxHeight: '80vh',
+  paddingTop: '8px'
 }))
 
 ModalEdit.propTypes = {

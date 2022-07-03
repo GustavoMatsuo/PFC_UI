@@ -37,6 +37,7 @@ export function ProdutoForm({
 }) {
   const ProdutoSchema = Yup.object().shape({
     nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
+    codigo: Yup.string().required("Código de barras é obrigatório").min(5, "Código de barras esta muito curto"),
     fornecedor: Yup.string().required('Fornecedor é obrigatório'),
     valor_unitario: Yup.number().required("Valor unitário é obrigatório"),
     estoque_minimo: Yup.number().required("Estoque minimo é obrigatório"),
@@ -47,6 +48,7 @@ export function ProdutoForm({
     initialValues: {
       id_produto: isEdit? selectedProduto.id_produto:"",
       nome: isEdit? selectedProduto.nome:"",
+      codigo: isEdit? selectedProduto.codigo:"",
       fornecedor: isEdit? selectedProduto.fornecedor.id_fornecedor:"",
       valor_unitario: isEdit? selectedProduto.valor_unitario:undefined, 
       estoque_minimo: isEdit? selectedProduto.estoque_minimo:undefined,
@@ -78,12 +80,22 @@ export function ProdutoForm({
           <Grid item xs={12}>         
             <TextField
               fullWidth
-              autoComplete="nome"
               type="text"
               label="Nome"
               {...getFieldProps('nome')}
               error={Boolean(touched.nome && errors.nome)}
               helperText={touched.nome && errors.nome}
+            />
+          </Grid>
+          <Grid item xs={12}>         
+            <TextField
+              fullWidth
+              type="text"
+              onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+              label="Código de barras"
+              {...getFieldProps('codigo')}
+              error={Boolean(touched.codigo && errors.codigo)}
+              helperText={touched.codigo && errors.codigo}
             />
           </Grid>
           <Grid item xs={12}>
@@ -110,18 +122,16 @@ export function ProdutoForm({
           <Grid item xs={6}>
             <TextField
               fullWidth
-              autoComplete="numero"
               type="number"
               label="Valor Unitário"
               {...getFieldProps('valor_unitario')}
-              error={Boolean(touched.numero && errors.valor_unitario)}
+              error={Boolean(touched.valor_unitario && errors.valor_unitario)}
               helperText={touched.valor_unitario && errors.valor_unitario}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               fullWidth
-              autoComplete="numero"
               type="number"
               label="Estoque Minimo"
               {...getFieldProps('estoque_minimo')}
