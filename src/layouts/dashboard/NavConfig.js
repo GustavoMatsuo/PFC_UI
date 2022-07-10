@@ -29,8 +29,13 @@ const navConfig = [
     icon: getIcon('eva:clipboard-fill'),
   },
   {
-    title: 'venda',
+    title: 'saida',
     path: '/dashboard/saida',
+    icon: getIcon('eva:arrow-circle-up-fill'),
+  },
+  {
+    title: 'venda',
+    path: '/dashboard/venda',
     icon: getIcon('eva:shopping-cart-fill'),
   }
 ]

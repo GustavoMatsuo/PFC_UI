@@ -9,6 +9,7 @@ import Dashboard from './pages/dashboard'
 import Page404 from './pages/page_404'
 import Fornecedor from './pages/Fornecedor'
 import Entrada from './pages/Entrada'
+import Venda from './pages/Venda'
 
 export default function Router() {
   return useRoutes([
@@ -21,6 +22,8 @@ export default function Router() {
         { path: 'fornecedor', element: <Fornecedor /> },
         { path: 'produto', element: <Produtos /> },
         { path: 'entrada', element: <Entrada /> },
+        { path: 'saida', element: <div/> },
+        { path: 'venda', element: <Venda /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },
