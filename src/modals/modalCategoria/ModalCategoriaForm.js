@@ -28,7 +28,7 @@ export function ModalCategoriaForm({
 }) {
   const ModalCategoriaSchema = Yup.object().shape({
     nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
-    cor: Yup.string().required('Email é obrigatório')
+    cor: Yup.string().required('Cor é obrigatório')
   })
 
   const formik = useFormik({
