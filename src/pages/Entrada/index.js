@@ -20,7 +20,6 @@ import Scrollbar from '../../components/Scrollbar'
 import api from 'src/config/api'
 import { TableHeadCustom } from 'src/components/TableHead'
 import { TableToolbar } from '../../components/TableToolbar'
-import { PageHeaderList } from 'src/components/PageHeaderList'
 import { TableNotFound } from 'src/components/TableNotFound'
 import { ModalEdit } from 'src/components/ModalEdit'
 import { EntradaForm } from './EntradaForm'
@@ -31,6 +30,7 @@ import { fDateTime } from 'src/utils/formatTime'
 import { EntradaStepper } from './EntradaStepper'
 import Iconify from 'src/components/Iconify'
 import { EntradaNewList } from './EntradaNewList'
+import { FabAdd } from 'src/components/FabAdd'
 
 const TABLE_HEAD = [
   { id: 'produto', label: 'Produto', alignRight: false },
@@ -187,11 +187,7 @@ export default function Entrada() {
 
   return (
     <div>
-      <PageHeaderList
-        title='Entrada'
-        buttonTitle='Nova Entrada'
-        addButton={handleNew}
-      />
+      <FabAdd addFunc={handleNew}/>
       <Grid container spacing={3} sx={{mb: 3}}>
         <Grid item xs={12} sm={12} md={4}>
           <CardProduto title="Subtitulo"/>

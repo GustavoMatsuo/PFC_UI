@@ -1,4 +1,3 @@
-import { filter } from 'lodash'
 import { useEffect, useState } from 'react'
 import {
   Card,
@@ -8,7 +7,6 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  Container,
   Typography,
   TableContainer,
   TablePagination,
@@ -17,13 +15,13 @@ import Label from '../../components/Label'
 import Scrollbar from '../../components/Scrollbar'
 import { TableHeadCustom } from 'src/components/TableHead'
 import { UserListToolbar } from './UserListToolbar'
-import { PageHeaderList } from 'src/components/PageHeaderList'
 import { TableNotFound } from 'src/components/TableNotFound' 
 import { TableMoreMenu } from 'src/components/TableMoreMenu'
 import { UserForm } from './UserForm'
 import { ModalEdit } from 'src/components/ModalEdit'
 import api from 'src/config/api'
 import { sortFilter } from 'src/utils/sortFilter'
+import { FabAdd } from 'src/components/FabAdd'
 
 const TABLE_HEAD = [
   { id: 'nome', label: 'Nome', alignRight: false },
@@ -102,12 +100,7 @@ export default function User() {
 
   return (
     <>
-      <PageHeaderList
-        title='Usuário'
-        buttonTitle='Novo usuário'
-        addButton={handleNewUser}
-      />
-
+      <FabAdd addFunc={handleNewUser}/>
       <Card>
         <UserListToolbar filterName={filterName} onFilterName={handleFilterByName} />
 

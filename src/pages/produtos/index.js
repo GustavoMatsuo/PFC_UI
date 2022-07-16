@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Container, Grid } from '@mui/material'
-import { PageHeaderList } from 'src/components/PageHeaderList'
+import { Grid } from '@mui/material'
 import { ModalEdit } from 'src/components/ModalEdit'
 import { ProdutoForm } from './ProdutoForm'
 import { ProdutoCard } from './ProdutoCard'
 import { ModalCategoria } from 'src/modals/modalCategoria'
 import api from 'src/config/api'
+import { FabAdd } from 'src/components/FabAdd'
 
 export default function Produto() {
   // const [openFilter, setOpenFilter] = useState(false)
@@ -73,12 +73,7 @@ export default function Produto() {
 
   return (
     <>
-      <PageHeaderList
-        title='Produtos'
-        buttonTitle='Novo produto'
-        addButton={handleNew}
-      />
-
+      <FabAdd addFunc={handleNew}/>
       <Grid container spacing={3}>
         {produtoList.map((product, index) => (
           <Grid key={index} item xs={12} sm={4} md={3} xl={2}>

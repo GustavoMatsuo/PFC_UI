@@ -18,9 +18,9 @@ export function PageHeaderList({
       <Typography variant="h4" noMargin>
         {title}
       </Typography>
-      <Button variant="contained" onClick={addButton} startIcon={<Iconify icon="eva:plus-fill" />}>
+      {addButton && <Button variant="contained" onClick={addButton} startIcon={<Iconify icon="eva:plus-fill" />}>
         {buttonTitle}
-      </Button>
+      </Button>}
     </Stack>
   )
 }

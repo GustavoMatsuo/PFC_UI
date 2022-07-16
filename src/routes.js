@@ -7,9 +7,10 @@ import User from './pages/user'
 import Produtos from './pages/produtos'
 import Dashboard from './pages/dashboard'
 import Page404 from './pages/page_404'
-import Fornecedor from './pages/Fornecedor'
-import Entrada from './pages/Entrada'
-import Venda from './pages/Venda'
+import Fornecedor from './pages/fornecedor'
+import Entrada from './pages/entrada'
+import Venda from './pages/venda'
+import Saida from './pages/saida'
 
 export default function Router() {
   return useRoutes([
@@ -17,12 +18,12 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <Dashboard /> },
+        { path: 'home', element: <Dashboard /> },
         { path: 'usuario', element: <User /> },
         { path: 'fornecedor', element: <Fornecedor /> },
         { path: 'produto', element: <Produtos /> },
         { path: 'entrada', element: <Entrada /> },
-        { path: 'saida', element: <div/> },
+        { path: 'saida', element: <Saida/> },
         { path: 'venda', element: <Venda /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
