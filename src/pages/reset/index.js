@@ -1,10 +1,11 @@
 import { styled } from '@mui/material/styles'
-import { Typography, Card, Button } from '@mui/material'
-import { LoginForm } from './LoginForm'
+import { Container, Typography, Card } from '@mui/material'
 import useResponsive from '../../hooks/useResponsive'
+import { useNavigate, useParams } from 'react-router-dom'
 import AnimatedBackground from 'src/components/animatedBackground'
-import { useState } from 'react'
-import { ForgetForm } from './ForgetForm'
+import { useEffect } from 'react'
+import api from 'src/config/api'
+import { ResetForm } from './ResetForm'
 
 const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -30,12 +31,26 @@ const SectionStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }))
 
-const ButtonToggle = styled(Button)(({ theme }) => ({
-  textTransform: 'none'
-}))
-
 export default function Login() {
-  const [loginOrReset, setLoginOrReset] = useState(true)
+  let { token } = useParams()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    validateToken()
+  },[token])
+
+  const validateToken = async() => {
+    try {
+      let config = {
+        headers: {
+          Authorization: token
+        }
+      }
+      await api.post("/usuario/auth", null, config)
+    }catch(e) {
+      // navigate('/login', { replace: true })
+    }
+  }
 
   const mdUp = useResponsive('up', 'md')
 
@@ -45,7 +60,7 @@ export default function Login() {
         {mdUp? (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 5, mb: 5 }}>
-              Olá! Seja bem-vindo.
+              Fique tranquilo, é rapido e seguro para criar uma nova
             </Typography>
             {/* <img src="/static/illustrations/illustration_login.png" alt="login" /> */}
           </SectionStyle>
@@ -53,27 +68,12 @@ export default function Login() {
         <ContentStyle>
           <Card sx={{ padding: 3 }}>
             <Typography variant="h4" gutterBottom>
-              {loginOrReset? 'Entrar':'Recuperar senha'}
+              Redefinir senha
             </Typography>
             <Typography sx={{ color: 'text.secondary', mb: 3 }}>
-              {loginOrReset? 'Coloque seus dados abaixo':'Digite seu email para redefinir a senha'}
+              Digite sua nova senha
             </Typography>
-            {loginOrReset? 
-              <LoginForm />
-              :
-              <ForgetForm
-                toggleForm={() => setLoginOrReset(true)}
-              />
-            }
-            <ButtonToggle
-              fullWidth 
-              size="large" 
-              color="primary" 
-              variant="text" 
-              onClick={() => setLoginOrReset(!loginOrReset)}
-            >
-              {loginOrReset? 'Esqueceu a senha?':'Login'}
-            </ButtonToggle>          
+            <ResetForm token={token}/>
           </Card>
         </ContentStyle>
         {!mdUp && (<span/>)}

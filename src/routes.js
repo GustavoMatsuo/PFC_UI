@@ -13,13 +13,14 @@ import Entrada from './pages/entrada'
 import Venda from './pages/venda'
 import Saida from './pages/saida'
 import Loading from './pages/loading'
+import Reset from './pages/reset'
 
 export default function Router() {
   const isLoggedIn = localStorage.getItem("token")
   return useRoutes([
     {
       path: '/dashboard',
-      element: isLoggedIn? <DashboardLayout /> : <Navigate to="/auth" />, 
+      element: isLoggedIn? <DashboardLayout /> : <Navigate to="/auth" replace/>, 
       children: [
         { path: 'home', element: <Dashboard /> },
         { path: 'usuario', element: <User /> },
@@ -31,20 +32,18 @@ export default function Router() {
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },
-    {
-      path: '/auth',
-      element: <Loading/>
-    },
+    { path: '/auth',element: <Loading/> },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <Navigate to="/login" /> },
         { path: 'login', element: <Login /> },
+        { path: 'reset/:token', element: <Reset /> },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: '*', element: <Navigate to="/404" replace /> }
   ])
 }
