@@ -38,7 +38,7 @@ export default function Venda() {
   }, [produtoRef])
 
   const getProdutoList = async() => {
-    const { data } = await api.get('/produto')
+    const { data } = await api.get('/produto/simple')
     setProdutoList(data)
   }
 
