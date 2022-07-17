@@ -25,10 +25,21 @@ export function UserForm({
 
   const UserSchema = Yup.object().shape({
     nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
-    email: Yup.string().email('Email deve ser um endereço de e-mail válido').required('Email é obrigatório'),
+    email: Yup.string().email('Email deve ser um endereço de e-mail válido')
+      .required('Email é obrigatório'),
     cargo: Yup.string().required('Cargo é obrigatório'),
     senha: Yup.string().required('Senha é obrigatório').min(3, "Senha esta muito curta"),
     confirmSenha: Yup.string().required('Confirmar Senha é obrigatório')
+      .oneOf([Yup.ref('senha'), null], 'As senhas devem ser iguais')
+  })
+
+  const UserSchemaEdit = Yup.object().shape({
+    nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
+    email: Yup.string().email('Email deve ser um endereço de e-mail válido')
+      .required('Email é obrigatório'),
+    cargo: Yup.string().required('Cargo é obrigatório'),
+    senha: Yup.string().min(3, "Senha esta muito curta"),
+    confirmSenha: Yup.string()
       .oneOf([Yup.ref('senha'), null], 'As senhas devem ser iguais')
   })
 
@@ -39,10 +50,10 @@ export function UserForm({
       nome: isEdit? selectedUser.nome:'',
       email: isEdit? selectedUser.email:'',
       cargo: isEdit? selectedUser.cargo:'',
-      senha: isEdit? selectedUser.senha:'',
-      confirmSenha: isEdit? selectedUser.senha:'',
+      senha: '',
+      confirmSenha: '',
     },
-    validationSchema: UserSchema,
+    validationSchema: isEdit? UserSchemaEdit:UserSchema,
     onSubmit: async(values, actions) => {
       try {
         const reqType = isEdit? 'put':'post'
