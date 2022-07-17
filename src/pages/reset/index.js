@@ -48,7 +48,7 @@ export default function Login() {
       }
       await api.post("/usuario/auth", null, config)
     }catch(e) {
-      // navigate('/login', { replace: true })
+      navigate('/login', { replace: true })
     }
   }
 
