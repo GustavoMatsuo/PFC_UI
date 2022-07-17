@@ -27,9 +27,10 @@ export function LoginForm() {
     onSubmit: async(values, actions) => {
       try {
         setUserDisabled(false)
-        const { status } = await api.post("/usuario/login", values)
+        const { status, data } = await api.post("/usuario/login", values)
         if(status === 200) {
-          navigate('/dashboard/usuario', { replace: true })
+          localStorage.setItem('token', data.token)
+          navigate('/auth', { replace: true })
         }
       }catch(e) {
         const { data, status } = e.response

@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 import DashboardLayout from './layouts/dashboard'
 import LogoOnlyLayout from './layouts/LogoOnlyLayout'
@@ -11,12 +12,14 @@ import Fornecedor from './pages/fornecedor'
 import Entrada from './pages/entrada'
 import Venda from './pages/venda'
 import Saida from './pages/saida'
+import Loading from './pages/loading'
 
 export default function Router() {
+  const isLoggedIn = localStorage.getItem("token")
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: isLoggedIn? <DashboardLayout /> : <Navigate to="/auth" />, 
       children: [
         { path: 'home', element: <Dashboard /> },
         { path: 'usuario', element: <User /> },
@@ -27,6 +30,10 @@ export default function Router() {
         { path: 'venda', element: <Venda /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
+    },
+    {
+      path: '/auth',
+      element: <Loading/>
     },
     {
       path: '/',
