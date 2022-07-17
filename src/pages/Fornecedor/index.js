@@ -38,7 +38,7 @@ export default function Fornecedor() {
   const [orderBy, setOrderBy] = useState('nome')
   const [filterName, setFilterName] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [fornecedorList, setFornecedorList] = useState([])
+  const [fornecedorList, setFornecedorList] = useState({list:[], total:0})
 
   const [showModal, setShowModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -46,13 +46,13 @@ export default function Fornecedor() {
 
   useEffect(() => {
     getFornecedorList()
-  }, [])
+  }, [page, rowsPerPage])
 
   const getFornecedorList = async() => {
     const { data } = await api.get('/fornecedor', {
       params:{
         limit: rowsPerPage,
-        skip: page
+        skip: page * rowsPerPage
       }
     })
     setFornecedorList(data)
@@ -64,15 +64,9 @@ export default function Fornecedor() {
     setOrderBy(property)
   }
 
-  const handleChangePage = async(event, newPage) => {
-    await setPage(newPage)
-    getFornecedorList()
-  }
-
   const handleChangeRowsPerPage = async(event) => {
-    await setRowsPerPage(parseInt(event.target.value, 10))
+    setRowsPerPage(parseInt(event.target.value))
     await setPage(0)
-    getFornecedorList()
   }
 
   const handleFilterByName = (event) => {
@@ -95,7 +89,7 @@ export default function Fornecedor() {
     setShowModal(true)
   }
 
-  const filteredFornecedor = sortFilter(fornecedorList, order, orderBy, filterName, 'nome')
+  const filteredFornecedor = sortFilter(fornecedorList.list, order, orderBy, filterName, 'nome')
 
   const isFornecedorNotFound = filteredFornecedor.length === 0
 
@@ -115,7 +109,7 @@ export default function Fornecedor() {
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {filteredFornecedor.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                {filteredFornecedor.map(row => {
                   const { id_fornecedor, nome, email, cnpj, status } = row
 
                   return (
@@ -162,10 +156,10 @@ export default function Fornecedor() {
           component="div"
           labelRowsPerPage="Itens por página:"
           labelDisplayedRows={({ from, to, count }) =>`${from}–${to} de ${count !== -1 ? count : `mais que ${to}`}`}
-          count={fornecedorList.length}
+          count={fornecedorList.total}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
+          onPageChange={(event, value) => setPage(value)}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>

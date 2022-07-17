@@ -6,7 +6,6 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  Container,
   Typography,
   TableContainer,
   TablePagination,
@@ -62,7 +61,7 @@ export default function Entrada() {
   const [orderBy, setOrderBy] = useState('data_entrada')
   const [filterName, setFilterName] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [entradaList, setEntradaList] = useState([])
+  const [entradaList, setEntradaList] = useState({list:[], total:0})
   const [produtoList, setProdutoList] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [newEntradaList, setNewEntradaList] = useState([])
@@ -70,9 +69,11 @@ export default function Entrada() {
   const [selectedEntrada, setSelectedEntrada] = useState({})
   const [loading, setLoading] = useState(false)
 
-  
   useEffect(() => {
     getEntradaList()
+  }, [page, rowsPerPage])
+
+  useEffect(() => {
     getProdutoListSimple()
   }, [])
 
@@ -80,7 +81,7 @@ export default function Entrada() {
     const { data } = await api.get('/entrada', {
       params:{
         limit: rowsPerPage,
-        skip: page
+        skip: page * rowsPerPage
       }
     })
     setEntradaList(data)
@@ -97,15 +98,9 @@ export default function Entrada() {
     setOrderBy(property)
   }
 
-  const handleChangePage = async(event, newPage) => {
-    await setPage(newPage)
-    getEntradaList()
-  }
-
   const handleChangeRowsPerPage = async(event) => {
-    await setRowsPerPage(parseInt(event.target.value, 10))
+    setRowsPerPage(parseInt(event.target.value))
     await setPage(0)
-    getEntradaList()
   }
 
   const handleFilterByName = (event) => {
@@ -181,7 +176,7 @@ export default function Entrada() {
     handleCloseModal()
   }
 
-  const filteredEntrada = sortFilter(entradaList, order, orderBy, filterName, 'nome_produto')
+  const filteredEntrada = sortFilter(entradaList.list, order, orderBy, filterName, 'nome_produto')
 
   const isEntradaNotFound = filteredEntrada.length === 0
 
@@ -212,7 +207,7 @@ export default function Entrada() {
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {filteredEntrada.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                {filteredEntrada.map((row) => {
                   const { id_entrada, nome_produto, qtd, data_entrada, valor_unitario } = row
 
                   return (
@@ -247,10 +242,10 @@ export default function Entrada() {
           component="div"
           labelRowsPerPage="Itens por página:"
           labelDisplayedRows={({ from, to, count }) =>`${from}–${to} de ${count !== -1 ? count : `mais que ${to}`}`}
-          count={entradaList.length}
+          count={entradaList.total}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
+          onPageChange={(event, value) => setPage(value)}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>

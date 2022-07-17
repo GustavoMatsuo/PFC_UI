@@ -9,7 +9,7 @@ import { FabAdd } from 'src/components/FabAdd'
 
 export default function Produto() {
   // const [openFilter, setOpenFilter] = useState(false)
-  const [produtoList, setProdutoList] = useState([])
+  const [produtoList, setProdutoList] = useState({list:[], total:0})
   const [showModal, setShowModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [selectedProduto, setSelectedProduto] = useState(null)
@@ -75,7 +75,7 @@ export default function Produto() {
     <>
       <FabAdd addFunc={handleNew}/>
       <Grid container spacing={3}>
-        {produtoList.map((product, index) => (
+        {produtoList.list.map((product, index) => (
           <Grid key={index} item xs={12} sm={4} md={3} xl={2}>
             <ProdutoCard 
               product={product}

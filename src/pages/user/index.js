@@ -37,7 +37,7 @@ export default function User() {
   const [orderBy, setOrderBy] = useState('nome')
   const [filterName, setFilterName] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [userList, setUserList] = useState([])
+  const [userList, setUserList] = useState({list:[], total:0})
 
   const [showModal, setShowModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
@@ -45,7 +45,7 @@ export default function User() {
 
   useEffect(() => {
     getUserList()
-  },[])
+  },[page, rowsPerPage])
 
   const getUserList = async() => {
     const { data } = await api.get('/usuario', {
@@ -63,15 +63,9 @@ export default function User() {
     setOrderBy(property)
   }
 
-  const handleChangePage = async(event, newPage) => {
-    await setPage(newPage)
-    getUserList()
-  }
-
   const handleChangeRowsPerPage = async(event) => {
-    await setRowsPerPage(parseInt(event.target.value, 10))
+    setRowsPerPage(parseInt(event.target.value, 10))
     await setPage(0)
-    getUserList()
   }
 
   const handleFilterByName = (event) => {
@@ -94,7 +88,7 @@ export default function User() {
     setShowModal(true)
   }
 
-  const filteredUsers = sortFilter(userList, order, orderBy, filterName, 'nome')
+  const filteredUsers = sortFilter(userList.list, order, orderBy, filterName, 'nome')
 
   const isUserNotFound = filteredUsers.length === 0
 
@@ -114,7 +108,7 @@ export default function User() {
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                {filteredUsers.map((row) => {
                   const { id_usuario, nome, email, cargo, status } = row
 
                   return (
@@ -161,10 +155,10 @@ export default function User() {
           component="div"
           labelRowsPerPage="Itens por página:"
           labelDisplayedRows={({ from, to, count }) =>`${from}–${to} de ${count !== -1 ? count : `mais que ${to}`}`}
-          count={userList.length}
+          count={userList.total}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
+          onPageChange={(event, value) => setPage(value)}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>
