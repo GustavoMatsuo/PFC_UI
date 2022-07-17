@@ -30,6 +30,11 @@ export function LoginForm() {
         const { status, data } = await api.post("/usuario/login", values)
         if(status === 200) {
           localStorage.setItem('token', data.token)
+          const userData = JSON.stringify({
+            nome: data.nome, 
+            email: data.email,  
+          })
+          localStorage.setItem('user_data', userData)
           navigate('/auth', { replace: true })
         }
       }catch(e) {
