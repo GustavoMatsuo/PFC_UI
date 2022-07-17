@@ -32,12 +32,12 @@ export function FornecedorForm({
 
   const formik = useFormik({
     initialValues: {
-      id_fornecedor: isEdit? selectedFornecedor.id_fornecedor:"",
+      id_fornecedor: isEdit? selectedFornecedor.id_fornecedor:null,
       nome: isEdit? selectedFornecedor.nome:"",
       email: isEdit? selectedFornecedor.email:"",
       cnpj: isEdit? selectedFornecedor.cnpj:"",
       status: isEdit? selectedFornecedor.status:null,
-      id_endereco: isEdit? selectedFornecedor.endereco.id_endereco:"",
+      id_endereco: isEdit? selectedFornecedor.endereco.id_endereco:null,
       rua: isEdit? selectedFornecedor.endereco.rua:"",
       numero: isEdit? selectedFornecedor.endereco.numero:"",
       bairro: isEdit? selectedFornecedor.endereco.bairro:"",
@@ -55,7 +55,7 @@ export function FornecedorForm({
           cnpj: values.cnpj,
           status: values.status,
           endereco: {
-            id_endereco: values.id_endereco,
+            ...(isEdit && {id_endereco: values.id_endereco}),
             rua: values.rua,
             numero: values.numero,
             bairro: values.bairro,
