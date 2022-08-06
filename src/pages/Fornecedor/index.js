@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import {
   Card,
   Table,
@@ -22,6 +22,7 @@ import { fCNPJ } from 'src/utils/formatNumber'
 import api from 'src/config/api'
 import { sortFilter } from 'src/utils/sortFilter'
 import { TableToolbar } from 'src/components/TableToolbar'
+import { debounce } from 'lodash'
 
 const TABLE_HEAD = [
   { id: 'nome', label: 'Nome', alignRight: false },
@@ -44,14 +45,15 @@ export default function Fornecedor() {
   const [selectedFornecedor, setselectedFornecedor] = useState(null)
 
   useEffect(() => {
-    getFornecedorList()
+    getFornecedorList(rowsPerPage, page, filterName)
   }, [page, rowsPerPage])
 
-  const getFornecedorList = async() => {
+  const getFornecedorList = async(limit, page, name) => {
     const { data } = await api.get('/fornecedor', {
       params:{
-        limit: rowsPerPage,
-        skip: page * rowsPerPage
+        limit: limit,
+        skip: page * limit,
+        filterBy: name
       }
     })
     setFornecedorList(data)
@@ -68,13 +70,24 @@ export default function Fornecedor() {
     await setPage(0)
   }
 
+  const handleFilter = useCallback(
+    debounce((limit, page, nome) => {
+      if(page === 0){
+        getFornecedorList(limit, page, nome)
+      } else {
+        setPage(0)
+      }
+    }, 500),
+  [])
+
   const handleFilterByName = (event) => {
     setFilterName(event.target.value)
+    handleFilter(rowsPerPage, page, event.target.value)
   }
 
   const handleChangeStatus = async(id) => {
     await api.put('/fornecedor/status', { id })
-    getFornecedorList()
+    getFornecedorList(rowsPerPage, page, filterName)
   }
 
   const handleEdit = (fornecedor) => {
@@ -88,7 +101,7 @@ export default function Fornecedor() {
     setShowModal(true)
   }
 
-  const filteredFornecedor = sortFilter(fornecedorList.list, order, orderBy, filterName, 'nome')
+  const filteredFornecedor = sortFilter(fornecedorList.list, order, orderBy)
 
   const isFornecedorNotFound = filteredFornecedor.length === 0
 
@@ -176,7 +189,7 @@ export default function Fornecedor() {
             isEdit={isEdit}
             selectedFornecedor={selectedFornecedor}
             closeModal={() => setShowModal(false)}
-            getFornecedorList={getFornecedorList}
+            getFornecedorList={() => getFornecedorList(rowsPerPage, page, filterName)}
           />
         }   
       />

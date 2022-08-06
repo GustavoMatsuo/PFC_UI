@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import {
   Card,
   Table,
@@ -17,6 +17,7 @@ import { TableNotFound } from 'src/components/TableNotFound'
 import { fCurrency } from 'src/utils/formatNumber'
 import { sortFilter } from 'src/utils/sortFilter'
 import { fDateTime } from 'src/utils/formatTime'
+import { debounce } from 'lodash'
 
 const TABLE_HEAD = [
   { id: 'produto', label: 'Produto', alignRight: false },
@@ -35,14 +36,15 @@ export default function Saida() {
   const [saidaList, setSaidaList] = useState({list:[], total:0})
   
   useEffect(() => {
-    getSaidaList()
+    getSaidaList(rowsPerPage, page, filterName)
   }, [page, rowsPerPage])
 
-  const getSaidaList = async() => {
+  const getSaidaList = async(limit, page, name) => {
     const { data } = await api.get('/saida', {
       params:{
-        limit: rowsPerPage,
-        skip: page * rowsPerPage
+        limit: limit,
+        skip: page * limit,
+        filterBy: name
       }
     })
     setSaidaList(data)
@@ -59,11 +61,22 @@ export default function Saida() {
     await setPage(0)
   }
 
+  const handleFilter = useCallback(
+    debounce((limit, page, nome) => {
+      if(page === 0){
+        getSaidaList(limit, page, nome)
+      } else {
+        setPage(0)
+      }
+    }, 500),
+  [])
+
   const handleFilterByName = (event) => {
     setFilterName(event.target.value)
+    handleFilter(rowsPerPage, page, event.target.value)
   }
 
-  const filteredSaida = sortFilter(saidaList.list, order, orderBy, filterName, 'data_saida')
+  const filteredSaida = sortFilter(saidaList.list, order, orderBy)
 
   const isSaidaNotFound = filteredSaida.length === 0
 

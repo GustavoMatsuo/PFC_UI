@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import {
   Card,
   Table,
@@ -29,6 +29,7 @@ import { fDateTime } from 'src/utils/formatTime'
 import { EntradaStepper } from './EntradaStepper'
 import Iconify from 'src/components/Iconify'
 import { EntradaNewList } from './EntradaNewList'
+import { debounce } from 'lodash'
 
 const TABLE_HEAD = [
   { id: 'produto', label: 'Produto', alignRight: false },
@@ -69,18 +70,19 @@ export default function Entrada() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    getEntradaList()
+    getEntradaList(rowsPerPage, page, filterName)
   }, [page, rowsPerPage])
 
   useEffect(() => {
     getProdutoListSimple()
   }, [])
 
-  const getEntradaList = async() => {
+  const getEntradaList = async(limit, page, name) => {
     const { data } = await api.get('/entrada', {
       params:{
-        limit: rowsPerPage,
-        skip: page * rowsPerPage
+        limit: limit,
+        skip: page * limit,
+        filterBy: name
       }
     })
     setEntradaList(data)
@@ -102,8 +104,19 @@ export default function Entrada() {
     await setPage(0)
   }
 
+  const handleFilter = useCallback(
+    debounce((limit, page, nome) => {
+      if(page === 0){
+        getEntradaList(limit, page, nome)
+      } else {
+        setPage(0)
+      }
+    }, 500),
+  [])
+
   const handleFilterByName = (event) => {
     setFilterName(event.target.value)
+    handleFilter(rowsPerPage, page, event.target.value)
   }
 
   const handleNew = () => {
@@ -112,7 +125,7 @@ export default function Entrada() {
   }
 
   const handleCloseModal = () => {
-    getEntradaList()
+    getEntradaList(rowsPerPage, page, filterName)
     setShowModal(false)
     setIsEdit(false)
     setNewEntradaList([])
@@ -171,11 +184,11 @@ export default function Entrada() {
       count++
     }
     setLoading(false)
-    getEntradaList()
+    getEntradaList(rowsPerPage, page, filterName)
     handleCloseModal()
   }
 
-  const filteredEntrada = sortFilter(entradaList.list, order, orderBy, filterName, 'nome_produto')
+  const filteredEntrada = sortFilter(entradaList.list, order, orderBy)
 
   const isEntradaNotFound = filteredEntrada.length === 0
 

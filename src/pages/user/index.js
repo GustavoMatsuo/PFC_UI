@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   Card,
   Table,
@@ -11,6 +11,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material'
+import { debounce } from 'lodash'
 import Label from '../../components/Label'
 import Scrollbar from '../../components/Scrollbar'
 import { TableHeadCustom } from 'src/components/TableHead'
@@ -43,14 +44,15 @@ export default function User() {
   const [selectedUser, setSelectedUser] = useState(null)
 
   useEffect(() => {
-    getUserList()
+    getUserList(rowsPerPage, page, filterName)
   },[page, rowsPerPage])
 
-  const getUserList = async() => {
+  const getUserList = async(limit, page, name) => {
     const { data } = await api.get('/usuario', {
       params:{
-        limit: rowsPerPage,
-        skip: page
+        limit: limit,
+        skip: page * limit,
+        filterBy: name
       }
     })
     setUserList(data)
@@ -67,13 +69,24 @@ export default function User() {
     await setPage(0)
   }
 
+  const handleFilter = useCallback(
+    debounce((limit, page, nome) => {
+      if(page === 0){
+        getUserList(limit, page, nome)
+      } else {
+        setPage(0)
+      }
+    }, 500),
+  [])
+
   const handleFilterByName = (event) => {
     setFilterName(event.target.value)
+    handleFilter(rowsPerPage, page, event.target.value)
   }
 
   const handleChangeStatus = async(id) => {
     await api.put('/usuario/status', { id })
-    getUserList()
+    getUserList(rowsPerPage, page, filterName)
   }
 
   const handleEditUser = (user) => {
@@ -87,7 +100,7 @@ export default function User() {
     setShowModal(true)
   }
 
-  const filteredUsers = sortFilter(userList.list, order, orderBy, filterName, 'nome')
+  const filteredUsers = sortFilter(userList.list, order, orderBy)
 
   const isUserNotFound = filteredUsers.length === 0
 
@@ -176,7 +189,7 @@ export default function User() {
             isEdit={isEdit}
             selectedUser={selectedUser}
             closeModal={() => setShowModal(false)}
-            getUserList={getUserList}
+            getUserList={() => getUserList(rowsPerPage, page, filterName)}
           />
         }   
       />

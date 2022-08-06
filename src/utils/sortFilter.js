@@ -1,5 +1,3 @@
-import { filter } from 'lodash'
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1
@@ -16,7 +14,7 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
-export function sortFilter(array, order, orderBy, query, queryProp) {
+export function sortFilter(array, order, orderBy) {
   const comparator = getComparator(order, orderBy)
   const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
@@ -24,8 +22,5 @@ export function sortFilter(array, order, orderBy, query, queryProp) {
     if (order !== 0) return order
     return a[1] - b[1]
   })
-  if (query) {
-    return filter(array, (item) => item[queryProp].toLowerCase().indexOf(query.toLowerCase()) !== -1)
-  }
   return stabilizedThis.map((el) => el[0])
 }
