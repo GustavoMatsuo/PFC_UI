@@ -10,7 +10,21 @@ export function FabAdd({ addFunc }) {
   const theme = useTheme()
 
   return (
-    <Fab sx={{position: 'fixed', bottom: theme.spacing(2), right: theme.spacing(4)}} onClick={addFunc} size="medium" color="secondary" aria-label="add">
+    <Fab 
+      sx={{
+        position: 'fixed', 
+        bottom: theme.spacing(2), 
+        right: theme.spacing(2),
+        backgroundColor: '#2065D180',
+        "&:hover": {
+          backgroundColor: theme.palette.primary.main
+        }
+      }} 
+      onClick={addFunc}
+      size="medium" 
+      color="secondary" 
+      aria-label="add"
+    >
       <Iconify
         icon="eva:plus-fill" 
         width={28}

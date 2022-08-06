@@ -29,7 +29,6 @@ import { fDateTime } from 'src/utils/formatTime'
 import { EntradaStepper } from './EntradaStepper'
 import Iconify from 'src/components/Iconify'
 import { EntradaNewList } from './EntradaNewList'
-import { FabAdd } from 'src/components/FabAdd'
 
 const TABLE_HEAD = [
   { id: 'produto', label: 'Produto', alignRight: false },
@@ -182,7 +181,6 @@ export default function Entrada() {
 
   return (
     <div>
-      <FabAdd addFunc={handleNew}/>
       <Grid container spacing={3} sx={{mb: 3}}>
         <Grid item xs={12} sm={12} md={4}>
           <CardProduto title="Subtitulo"/>
@@ -196,7 +194,13 @@ export default function Entrada() {
       </Grid>
 
       <Card>
-        <TableToolbar placeholder='Pesquisar Entrada...' filterName={filterName} onFilterName={handleFilterByName} />
+        <TableToolbar 
+          placeholder='Pesquisar Entrada...' 
+          filterName={filterName} 
+          onFilterName={handleFilterByName}
+          buttonRight={handleNew}
+          buttonRightLabel="Adicionar"
+        />
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>
             <Table>

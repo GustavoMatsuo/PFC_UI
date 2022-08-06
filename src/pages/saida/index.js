@@ -70,7 +70,11 @@ export default function Saida() {
   return (
     <>
       <Card>
-        <TableToolbar placeholder='Pesquisar Saida...' filterName={filterName} onFilterName={handleFilterByName} />
+        <TableToolbar 
+          placeholder='Pesquisar Saida...' 
+          filterName={filterName} 
+          onFilterName={handleFilterByName} 
+        />
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>
             <Table>

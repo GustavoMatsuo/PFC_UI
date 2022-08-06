@@ -14,7 +14,6 @@ import {
 import Label from '../../components/Label'
 import Scrollbar from '../../components/Scrollbar'
 import { TableHeadCustom } from 'src/components/TableHead'
-import { FornecedorListToolbar } from './FornecedorListToolbar'
 import { TableNotFound } from 'src/components/TableNotFound'
 import { TableMoreMenu } from 'src/components/TableMoreMenu'
 import { ModalEdit } from 'src/components/ModalEdit'
@@ -22,7 +21,7 @@ import { FornecedorForm } from './FornecedorForm'
 import { fCNPJ } from 'src/utils/formatNumber'
 import api from 'src/config/api'
 import { sortFilter } from 'src/utils/sortFilter'
-import { FabAdd } from 'src/components/FabAdd'
+import { TableToolbar } from 'src/components/TableToolbar'
 
 const TABLE_HEAD = [
   { id: 'nome', label: 'Nome', alignRight: false },
@@ -95,10 +94,14 @@ export default function Fornecedor() {
 
   return (
     <>
-      <FabAdd addFunc={handleNew}/>
       <Card>
-        <FornecedorListToolbar filterName={filterName} onFilterName={handleFilterByName} />
-
+        <TableToolbar 
+          placeholder='Pesquisar Fornecedor...' 
+          filterName={filterName} 
+          onFilterName={handleFilterByName}
+          buttonRight={handleNew}
+          buttonRightLabel="Adicionar"
+        />
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>
             <Table>

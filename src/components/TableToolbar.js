@@ -1,6 +1,11 @@
 import PropTypes from 'prop-types'
 import { styled } from '@mui/material/styles'
-import { Toolbar, OutlinedInput, InputAdornment } from '@mui/material'
+import { 
+  Toolbar, 
+  OutlinedInput, 
+  InputAdornment,
+  Button 
+} from '@mui/material'
 import Iconify from './Iconify'
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
@@ -11,12 +16,12 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
 }))
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
-  width: 240,
+  width: 320,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
   }),
-  '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
+  '&.Mui-focused': { width: '65%', boxShadow: theme.customShadows.z8 },
   '& fieldset': {
     borderWidth: `1px !important`,
     borderColor: `${theme.palette.grey[500_32]} !important`,
@@ -24,12 +29,14 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 }))
 
 TableToolbar.propTypes = {
-  placeholder: PropTypes.string,
-  filterName: PropTypes.string,
-  onFilterName: PropTypes.func,
+  placeholder: PropTypes.string.isRequired,
+  filterName: PropTypes.string.isRequired,
+  onFilterName: PropTypes.func.isRequired,
+  buttonRight: PropTypes.func,
+  buttonRightLabel: PropTypes.string
 }
 
-export function TableToolbar({ placeholder, filterName, onFilterName }) {
+export function TableToolbar({ placeholder, filterName, onFilterName, buttonRight, buttonRightLabel }) {
   return (
     <RootStyle>
       <SearchStyle
@@ -42,11 +49,16 @@ export function TableToolbar({ placeholder, filterName, onFilterName }) {
           </InputAdornment>
         }
       />
-      {/* <Tooltip title="Filter list">
-        <IconButton>
-          <Iconify icon="ic:round-filter-list" />
-        </IconButton>
-      </Tooltip> */}
+      {buttonRight && buttonRightLabel && 
+        <Button
+          size="large" 
+          color="primary" 
+          variant="contained" 
+          onClick={buttonRight}
+        >
+          {buttonRightLabel}
+        </Button>
+      }
     </RootStyle>
   )
 }

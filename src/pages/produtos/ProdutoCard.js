@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Box, Card, Typography, Stack } from '@mui/material'
+import { Box, Card, Typography, Stack, useTheme, Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { fCurrency } from '../../utils/formatNumber'
 import { CardContextMenu } from 'src/components/CardContextMenu'
@@ -27,7 +27,11 @@ export function ProdutoCard({
   onChangeStatus,
   onEdit
 }) {
-  const { nome, valor_unitario, status } = product
+  const theme = useTheme()
+
+  const { nome, valor_unitario, status, estoque_minimo, estoque, categoria } = product
+
+  const calcEstoque = estoque.qtd > estoque_minimo
 
   return (
     <Card>
@@ -53,14 +57,30 @@ export function ProdutoCard({
         }
       />
 
-      <Stack spacing={2} sx={{ p: 2 }}>
+      <Stack spacing={1} sx={{ p: 2 }}>
         <Typography variant="subtitle1" noWrap>
           {nome}
         </Typography>
-
+        <Stack direction="row" alignItems="center" justifyContent="flex-start">
+          <Label variant="ghost">
+            {categoria.nome}
+          </Label>
+        </Stack>
         <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Tooltip title={`Estoque mínimo: ${estoque_minimo}`} placement="bottom" arrow>
+            <Typography 
+              variant="subtitle2" 
+              color={calcEstoque? 
+                theme.palette.text
+                :
+                theme.palette.error.main
+              }
+            >
+              Quantidade: {estoque.qtd}
+            </Typography>
+          </Tooltip>
           <Typography variant="subtitle2">
-              R$&nbsp;{fCurrency(valor_unitario)}
+            R$&nbsp;{fCurrency(valor_unitario)}
           </Typography>
         </Stack>
       </Stack>
