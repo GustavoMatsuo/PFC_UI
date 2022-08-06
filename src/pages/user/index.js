@@ -20,7 +20,6 @@ import { TableMoreMenu } from 'src/components/TableMoreMenu'
 import { UserForm } from './UserForm'
 import { ModalEdit } from 'src/components/ModalEdit'
 import api from 'src/config/api'
-import { sortFilter } from 'src/utils/sortFilter'
 import { TableToolbar } from 'src/components/TableToolbar'
 
 const TABLE_HEAD = [
@@ -44,15 +43,23 @@ export default function User() {
   const [selectedUser, setSelectedUser] = useState(null)
 
   useEffect(() => {
-    getUserList(rowsPerPage, page, filterName)
-  },[page, rowsPerPage])
+    getUserList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
+  }, [page, rowsPerPage, order, orderBy])
 
-  const getUserList = async(limit, page, name) => {
+  const getUserList = async(limit, page, name, order, orderBy) => {
     const { data } = await api.get('/usuario', {
       params:{
-        limit: limit,
+        limit,
         skip: page * limit,
-        filterBy: name
+        filterBy: name,
+        order, 
+        orderBy
       }
     })
     setUserList(data)
@@ -70,9 +77,9 @@ export default function User() {
   }
 
   const handleFilter = useCallback(
-    debounce((limit, page, nome) => {
+    debounce((limit, page, nome, order, orderBy) => {
       if(page === 0){
-        getUserList(limit, page, nome)
+        getUserList(limit, page, nome, order, orderBy)
       } else {
         setPage(0)
       }
@@ -81,12 +88,24 @@ export default function User() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value)
-    handleFilter(rowsPerPage, page, event.target.value)
+    handleFilter(
+      rowsPerPage, 
+      page, 
+      event.target.value,
+      order, 
+      orderBy
+    )
   }
 
   const handleChangeStatus = async(id) => {
     await api.put('/usuario/status', { id })
-    getUserList(rowsPerPage, page, filterName)
+    getUserList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
   }
 
   const handleEditUser = (user) => {
@@ -100,9 +119,7 @@ export default function User() {
     setShowModal(true)
   }
 
-  const filteredUsers = sortFilter(userList.list, order, orderBy)
-
-  const isUserNotFound = filteredUsers.length === 0
+  const isUserNotFound = userList.list.length === 0
 
   return (
     <>
@@ -124,7 +141,7 @@ export default function User() {
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {filteredUsers.map((row) => {
+                {userList.list.map((row) => {
                   const { id_usuario, nome, email, cargo, status } = row
 
                   return (
@@ -189,7 +206,9 @@ export default function User() {
             isEdit={isEdit}
             selectedUser={selectedUser}
             closeModal={() => setShowModal(false)}
-            getUserList={() => getUserList(rowsPerPage, page, filterName)}
+            getUserList={() => 
+              getUserList(rowsPerPage, page, filterName, order, orderBy)
+            }
           />
         }   
       />

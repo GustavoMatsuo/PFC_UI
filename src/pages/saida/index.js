@@ -15,7 +15,6 @@ import { TableHeadCustom } from 'src/components/TableHead'
 import { TableToolbar } from '../../components/TableToolbar'
 import { TableNotFound } from 'src/components/TableNotFound'
 import { fCurrency } from 'src/utils/formatNumber'
-import { sortFilter } from 'src/utils/sortFilter'
 import { fDateTime } from 'src/utils/formatTime'
 import { debounce } from 'lodash'
 
@@ -36,15 +35,23 @@ export default function Saida() {
   const [saidaList, setSaidaList] = useState({list:[], total:0})
   
   useEffect(() => {
-    getSaidaList(rowsPerPage, page, filterName)
-  }, [page, rowsPerPage])
+    getSaidaList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
+  }, [page, rowsPerPage, order, orderBy])
 
-  const getSaidaList = async(limit, page, name) => {
+  const getSaidaList = async(limit, page, name, order, orderBy) => {
     const { data } = await api.get('/saida', {
       params:{
-        limit: limit,
+        limit,
         skip: page * limit,
-        filterBy: name
+        filterBy: name,
+        order, 
+        orderBy
       }
     })
     setSaidaList(data)
@@ -62,9 +69,9 @@ export default function Saida() {
   }
 
   const handleFilter = useCallback(
-    debounce((limit, page, nome) => {
+    debounce((limit, page, nome, order, orderBy) => {
       if(page === 0){
-        getSaidaList(limit, page, nome)
+        getSaidaList(limit, page, nome, order, orderBy)
       } else {
         setPage(0)
       }
@@ -73,12 +80,16 @@ export default function Saida() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value)
-    handleFilter(rowsPerPage, page, event.target.value)
+    handleFilter(
+      rowsPerPage, 
+      page, 
+      event.target.value,
+      order, 
+      orderBy
+    )
   }
 
-  const filteredSaida = sortFilter(saidaList.list, order, orderBy)
-
-  const isSaidaNotFound = filteredSaida.length === 0
+  const isSaidaNotFound = saidaList.list.length === 0
 
   return (
     <>
@@ -98,7 +109,7 @@ export default function Saida() {
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {filteredSaida.map((row) => {
+                {saidaList.list.map((row) => {
                   const { id_saida, produto, venda, qtd, data_saida, valor_unitario } = row
                   const CodVenda = venda? String(venda.id_venda).substring(0, 5):'-'
                   return (

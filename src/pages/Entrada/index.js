@@ -23,7 +23,6 @@ import { TableNotFound } from 'src/components/TableNotFound'
 import { ModalEdit } from 'src/components/ModalEdit'
 import { EntradaForm } from './EntradaForm'
 import { fCurrency } from 'src/utils/formatNumber'
-import { sortFilter } from 'src/utils/sortFilter'
 import { CardProduto } from './CardProduto'
 import { fDateTime } from 'src/utils/formatTime'
 import { EntradaStepper } from './EntradaStepper'
@@ -70,19 +69,27 @@ export default function Entrada() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    getEntradaList(rowsPerPage, page, filterName)
-  }, [page, rowsPerPage])
+    getEntradaList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
+  }, [page, rowsPerPage, order, orderBy])
 
   useEffect(() => {
     getProdutoListSimple()
   }, [])
 
-  const getEntradaList = async(limit, page, name) => {
+  const getEntradaList = async(limit, page, name, order, orderBy) => {
     const { data } = await api.get('/entrada', {
       params:{
-        limit: limit,
+        limit,
         skip: page * limit,
-        filterBy: name
+        filterBy: name,
+        order, 
+        orderBy
       }
     })
     setEntradaList(data)
@@ -105,9 +112,9 @@ export default function Entrada() {
   }
 
   const handleFilter = useCallback(
-    debounce((limit, page, nome) => {
+    debounce((limit, page, nome, order, orderBy) => {
       if(page === 0){
-        getEntradaList(limit, page, nome)
+        getEntradaList(limit, page, nome, order, orderBy)
       } else {
         setPage(0)
       }
@@ -116,7 +123,13 @@ export default function Entrada() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value)
-    handleFilter(rowsPerPage, page, event.target.value)
+    handleFilter(
+      rowsPerPage, 
+      page, 
+      event.target.value,
+      order, 
+      orderBy
+    )
   }
 
   const handleNew = () => {
@@ -125,7 +138,13 @@ export default function Entrada() {
   }
 
   const handleCloseModal = () => {
-    getEntradaList(rowsPerPage, page, filterName)
+    getEntradaList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
     setShowModal(false)
     setIsEdit(false)
     setNewEntradaList([])
@@ -184,13 +203,17 @@ export default function Entrada() {
       count++
     }
     setLoading(false)
-    getEntradaList(rowsPerPage, page, filterName)
+    getEntradaList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
     handleCloseModal()
   }
 
-  const filteredEntrada = sortFilter(entradaList.list, order, orderBy)
-
-  const isEntradaNotFound = filteredEntrada.length === 0
+  const isEntradaNotFound = entradaList.list.length === 0
 
   return (
     <div>
@@ -224,7 +247,7 @@ export default function Entrada() {
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {filteredEntrada.map((row) => {
+                {entradaList.list.map((row) => {
                   const { id_entrada, nome_produto, qtd, data_entrada, valor_unitario } = row
 
                   return (

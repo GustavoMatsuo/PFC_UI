@@ -20,7 +20,6 @@ import { ModalEdit } from 'src/components/ModalEdit'
 import { FornecedorForm } from './FornecedorForm'
 import { fCNPJ } from 'src/utils/formatNumber'
 import api from 'src/config/api'
-import { sortFilter } from 'src/utils/sortFilter'
 import { TableToolbar } from 'src/components/TableToolbar'
 import { debounce } from 'lodash'
 
@@ -45,15 +44,23 @@ export default function Fornecedor() {
   const [selectedFornecedor, setselectedFornecedor] = useState(null)
 
   useEffect(() => {
-    getFornecedorList(rowsPerPage, page, filterName)
-  }, [page, rowsPerPage])
+    getFornecedorList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
+  }, [page, rowsPerPage, order, orderBy])
 
-  const getFornecedorList = async(limit, page, name) => {
+  const getFornecedorList = async(limit, page, name, order, orderBy) => {
     const { data } = await api.get('/fornecedor', {
       params:{
-        limit: limit,
+        limit,
         skip: page * limit,
-        filterBy: name
+        filterBy: name,
+        order, 
+        orderBy
       }
     })
     setFornecedorList(data)
@@ -71,9 +78,9 @@ export default function Fornecedor() {
   }
 
   const handleFilter = useCallback(
-    debounce((limit, page, nome) => {
+    debounce((limit, page, nome, order, orderBy) => {
       if(page === 0){
-        getFornecedorList(limit, page, nome)
+        getFornecedorList(limit, page, nome, order, orderBy)
       } else {
         setPage(0)
       }
@@ -82,12 +89,24 @@ export default function Fornecedor() {
 
   const handleFilterByName = (event) => {
     setFilterName(event.target.value)
-    handleFilter(rowsPerPage, page, event.target.value)
+    handleFilter(
+      rowsPerPage, 
+      page, 
+      event.target.value,
+      order, 
+      orderBy
+    )
   }
 
   const handleChangeStatus = async(id) => {
     await api.put('/fornecedor/status', { id })
-    getFornecedorList(rowsPerPage, page, filterName)
+    getFornecedorList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
   }
 
   const handleEdit = (fornecedor) => {
@@ -101,9 +120,7 @@ export default function Fornecedor() {
     setShowModal(true)
   }
 
-  const filteredFornecedor = sortFilter(fornecedorList.list, order, orderBy)
-
-  const isFornecedorNotFound = filteredFornecedor.length === 0
+  const isFornecedorNotFound = fornecedorList.list.length === 0
 
   return (
     <>
@@ -125,7 +142,7 @@ export default function Fornecedor() {
                 onRequestSort={handleRequestSort}
               />
               <TableBody>
-                {filteredFornecedor.map(row => {
+                {fornecedorList.list.map(row => {
                   const { id_fornecedor, nome, email, cnpj, status } = row
 
                   return (
@@ -189,7 +206,9 @@ export default function Fornecedor() {
             isEdit={isEdit}
             selectedFornecedor={selectedFornecedor}
             closeModal={() => setShowModal(false)}
-            getFornecedorList={() => getFornecedorList(rowsPerPage, page, filterName)}
+            getFornecedorList={() => 
+              getFornecedorList(rowsPerPage, page, filterName,  order,  orderBy)
+            }
           />
         }   
       />
