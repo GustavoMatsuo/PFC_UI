@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { styled } from '@mui/material/styles'
-import { Box, Drawer } from '@mui/material'
+import { Box, Drawer, Typography } from '@mui/material'
 import useResponsive from '../../hooks/useResponsive'
 import Logo from '../../components/Logo'
 import Scrollbar from '../../components/Scrollbar'
@@ -42,8 +42,22 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
+      <Box 
+        sx={{ 
+          px: 2.5, py: 3,
+          display: 'flex', 
+          flexDirection: 'row', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+        }}
+      >
         <Logo />
+        <Typography 
+          variant='h3'
+          sx={{ ml: 1, pb: .5 }}
+        >
+          TAG
+        </Typography>
       </Box>
 
       <NavSection navConfig={navConfig} />

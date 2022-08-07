@@ -60,9 +60,8 @@ export default function Login() {
         {mdUp? (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 5, mb: 5 }}>
-              Fique tranquilo, é rapido e seguro para criar uma nova
+              Fique tranquilo, é rapido e seguro criar uma nova senha
             </Typography>
-            {/* <img src="/static/illustrations/illustration_login.png" alt="login" /> */}
           </SectionStyle>
         ): (<span/>)}
         <ContentStyle>

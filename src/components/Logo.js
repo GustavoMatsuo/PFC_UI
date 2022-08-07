@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 import { Box } from '@mui/material'
+import { NavLink as RouterLink } from 'react-router-dom'
+import img from '../assets/icon.png'
 
 Logo.propTypes = {
   disabledLink: PropTypes.bool,
@@ -8,15 +10,16 @@ Logo.propTypes = {
 
 export default function Logo({ disabledLink = false, sx }) {
   const logo = (
-    <Box sx={{ width: 40, height: 40, ...sx }}>
-      <p></p>
+    <Box 
+      sx={{ 
+        width: '2.5rem', 
+        height: '2.5rem',
+        ...sx 
+      }}
+    >
+      <img src={img} alt="Logo" />
     </Box>
   )
 
-  // if (disabledLink) {
-  //   return logo
-  // }
-
-  // return <RouterLink to="/">{logo}</RouterLink>
-  return logo
+  return <RouterLink to="/dashboard/home">{logo}</RouterLink>
 }
