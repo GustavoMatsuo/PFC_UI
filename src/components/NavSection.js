@@ -40,7 +40,9 @@ function NavItem({ item, active }) {
     bgcolor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
   }
 
-  return (
+  const userData = JSON.parse(localStorage.getItem('user_data'))
+
+  return item.role === userData.role || userData.role === 'admin'?
     <ListItemStyle
       component={RouterLink}
       to={path}
@@ -50,7 +52,8 @@ function NavItem({ item, active }) {
       <ListItemText disableTypography primary={title} />
       {info && info}
     </ListItemStyle>
-  )
+    :
+    null
 }
 
 NavSection.propTypes = {
@@ -65,9 +68,9 @@ export default function NavSection({ navConfig, ...other }) {
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
-        {navConfig.map((item) => (
+        {navConfig.map((item) =>
           <NavItem key={item.title} item={item} active={match} />
-        ))}
+        )}
       </List>
     </Box>
   )

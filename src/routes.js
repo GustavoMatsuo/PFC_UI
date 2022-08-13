@@ -14,6 +14,8 @@ import Venda from './pages/venda'
 import Saida from './pages/saida'
 import Loading from './pages/loading'
 import Reset from './pages/reset'
+import { PrivateRoute } from './components/PrivateRoute'
+import { Roles } from './layouts/dashboard/NavConfig'
 
 export default function Router() {
   const isLoggedIn = localStorage.getItem("token")
@@ -22,13 +24,13 @@ export default function Router() {
       path: '/dashboard',
       element: isLoggedIn? <DashboardLayout /> : <Navigate to="/auth" replace/>, 
       children: [
-        { path: 'home', element: <Dashboard /> },
-        { path: 'usuario', element: <User /> },
-        { path: 'fornecedor', element: <Fornecedor /> },
-        { path: 'produto', element: <Produtos /> },
-        { path: 'entrada', element: <Entrada /> },
-        { path: 'saida', element: <Saida/> },
-        { path: 'venda', element: <Venda /> },
+        { path: 'home', element: <PrivateRoute component={Dashboard} roles={Roles.EMP}/> },
+        { path: 'usuario', element: <PrivateRoute component={User} roles={Roles.ADM}/> },
+        { path: 'fornecedor', element: <PrivateRoute component={Fornecedor} roles={Roles.ADM}/> },
+        { path: 'produto', element: <PrivateRoute component={Produtos} roles={Roles.ADM}/> },
+        { path: 'entrada', element: <PrivateRoute component={Entrada} roles={Roles.ADM}/> },
+        { path: 'saida', element: <PrivateRoute component={Saida} roles={Roles.EMP}/> },
+        { path: 'venda', element: <PrivateRoute component={Venda} roles={Roles.EMP}/> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },

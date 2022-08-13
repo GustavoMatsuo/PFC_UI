@@ -32,7 +32,8 @@ export function LoginForm() {
           localStorage.setItem('token', data.token)
           const userData = JSON.stringify({
             nome: data.nome, 
-            email: data.email,  
+            email: data.email,
+            role: data.cargo
           })
           localStorage.setItem('user_data', userData)
           navigate('/auth', { replace: true })
