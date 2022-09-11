@@ -45,7 +45,7 @@ export function EntradaForm({
     validationSchema: EntradaSchema,
     onSubmit: async(values, actions) => {
       try {
-        const produto_nome = produtoList.find(item => item.id_produto == values.produto.id_produto)
+        const produto_nome = produtoList.find(item => item.id_produto === values.produto.id_produto)
         if(produto_nome && produto_nome.nome){
           isEdit? 
             handleUpdateEntrada({...values, produto_nome: produto_nome.nome})
@@ -73,7 +73,7 @@ export function EntradaForm({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Autocomplete
-              isOptionEqualToValue={(option, value) => option == value}
+              isOptionEqualToValue={(option, value) => option === value}
               value={values.produto}
               onChange={(event, newValue) => setFieldValue("produto", newValue)}
               options={produtoList}

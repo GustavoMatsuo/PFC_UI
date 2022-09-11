@@ -96,7 +96,7 @@ export function VendaForm({
               variant="text" 
               onClick={() => setIsOpenCliente(true)}
             >
-              {values.cliente == null? "SELECIONE O CLIENTE":String(values.cliente.nome).toUpperCase()}
+              {values.cliente === null? "SELECIONE O CLIENTE":String(values.cliente.nome).toUpperCase()}
             </Button>
           </Grid>
           <Grid item xs={12} display='flex'>

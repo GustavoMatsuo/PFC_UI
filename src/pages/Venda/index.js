@@ -46,7 +46,7 @@ export default function Venda() {
     let findProduto = null
     if(produto && produto.length > 5) {
       findProduto = produtoList.find(item => {
-        if(item.codigo == produto){
+        if(item.codigo === produto){
           return item
         }
       })
@@ -116,14 +116,14 @@ export default function Venda() {
               fullWidth
               value={null}
               inputValue={searchValue}
-              isOptionEqualToValue={(option, value) => option == value}
+              isOptionEqualToValue={(option, value) => option === value}
               onInputChange={(event, newValue) => setSearchValue(newValue)}
               onChange={(event, newValue) => handleAddProduto(newValue)}
               options={produtoList}
               filterOptions={(options, params) => {
                 if(searchValue.length > 0) {
                   let filtred = options.filter(item => {
-                    if(item.id_produto == searchValue){
+                    if(item.id_produto === searchValue){
                       return item
                     }
                   })

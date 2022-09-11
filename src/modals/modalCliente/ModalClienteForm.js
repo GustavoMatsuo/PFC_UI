@@ -43,7 +43,7 @@ export function ModalClienteForm({
     validationSchema: ModalClienteSchema,
     onSubmit: async(values, actions) => {
       try {
-        if(values.id_cliente ==  "") {
+        if(values.id_cliente ===  "") {
           const {data} = await api.post('/cliente', values)
           setCliente(data.cliente)
         }else {
@@ -60,10 +60,10 @@ export function ModalClienteForm({
 
   const onSelectCliente = (idCliente) => {
     setSelectValue(idCliente)
-    if(idCliente == "novo cliente" || idCliente.length < 5){
+    if(idCliente === "novo cliente" || idCliente.length < 5){
       resetForm()
     }else {
-      const cliente = clienteList.find(item => item.id_cliente == idCliente)
+      const cliente = clienteList.find(item => item.id_cliente === idCliente)
       setFieldValue("id_cliente", cliente.id_cliente)
       setFieldValue("nome", cliente.nome)
       setFieldValue("cpf", cliente.cpf)

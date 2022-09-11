@@ -34,7 +34,7 @@ export function EntradaStepper({
   ]
 
   const actioStep = () => {
-    const newStep = activeStep == 0? 1:0
+    const newStep = activeStep === 0? 1:0
     setActiveStep(newStep)
   }
 
@@ -57,7 +57,7 @@ export function EntradaStepper({
         onClick={actioStep}
         disabled={loading}
       >
-        {activeStep == 0? 'Continuar':'Voltar'}
+        {activeStep === 0? 'Continuar':'Voltar'}
       </Button>}
     </ContentDiv>
   )

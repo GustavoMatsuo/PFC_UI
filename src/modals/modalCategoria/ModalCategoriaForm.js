@@ -44,13 +44,9 @@ export function ModalCategoriaForm({
       try {
         const reqType = isEdit? 'put':'post'
         await api[reqType]('/categoria', values)
-        // const { status } = await api[reqType]('/categoria', values)
-        // if(status == 201) {
-          closeForm()
-          getCategoriaList()
-        // }
+        closeForm()
+        getCategoriaList()
       }catch(e) {
-        // const {  } = e.response
         console.log(e.response)
       }
     }
