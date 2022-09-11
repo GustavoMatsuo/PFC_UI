@@ -125,6 +125,8 @@ export default function User() {
     setShowModal(true)
   }
 
+  const userData = JSON.parse(localStorage.getItem('user_data'))
+
   const isUserNotFound = userList.list.length === 0
 
   return (
@@ -177,6 +179,7 @@ export default function User() {
                           status={status}
                           handleChangeStatus={() => handleChangeStatus(id_usuario)}
                           handleEdit={() => handleEditUser(row)}
+                          disabledStatus={email === userData.email}
                         />
                       </TableCell>
                     </TableRow>

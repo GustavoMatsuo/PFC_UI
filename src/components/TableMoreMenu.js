@@ -6,13 +6,15 @@ import Iconify from './Iconify'
 TableMoreMenu.propTypes = {
   status: PropTypes.bool,
   handleChangeStatus: PropTypes.func,
-  handleEdit: PropTypes.func
+  handleEdit: PropTypes.func,
+  disabledStatus: PropTypes.bool
 }
 
 export function TableMoreMenu({
   status,
   handleChangeStatus,
-  handleEdit
+  handleEdit,
+  disabledStatus
 }) {
   const ref = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -43,7 +45,7 @@ export function TableMoreMenu({
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={onChangeStatus}>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={onChangeStatus} disabled={disabledStatus}>
           <ListItemIcon>
             <Iconify icon={!status?"eva:checkmark-circle-2-outline":"eva:close-circle-outline"} width={24} height={24} />
           </ListItemIcon>
