@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useContext } from 'react'
 import {
   Card,
   Table,
@@ -29,6 +29,7 @@ import { EntradaStepper } from './EntradaStepper'
 import Iconify from 'src/components/Iconify'
 import { EntradaNewList } from './EntradaNewList'
 import { debounce } from 'lodash'
+import { SnackBarContext } from 'src/context/Snackbar'
 
 const TABLE_HEAD = [
   { id: 'produto', label: 'Produto', alignRight: false },
@@ -67,6 +68,8 @@ export default function Entrada() {
   const [isEdit, setIsEdit] = useState(false)
   const [selectedEntrada, setSelectedEntrada] = useState({})
   const [loading, setLoading] = useState(false)
+
+  const { showSnack } = useContext(SnackBarContext)
 
   useEffect(() => {
     getEntradaList(
@@ -164,7 +167,7 @@ export default function Entrada() {
 
   const handleUpdateEntrada = (editedEntrada) => {
     const editedEntradaList = newEntradaList.map((item, index) => {
-      return selectedEntrada.position == index? editedEntrada:item
+      return selectedEntrada.position === index? editedEntrada:item
     })
     setNewEntradaList(editedEntradaList)
     setIsEdit(false)
@@ -197,20 +200,24 @@ export default function Entrada() {
 
   const handleFinalizarEntrada = async() => {
     setLoading(true)
-    let count = 0
-    while (count <= newEntradaList.length-1) {
-      await saveEntrada(newEntradaList[count])
-      count++
-    }
-    setLoading(false)
-    getEntradaList(
-      rowsPerPage, 
-      page, 
-      filterName, 
-      order, 
-      orderBy
-    )
-    handleCloseModal()
+    const promises = newEntradaList.map(item => {
+      saveEntrada(item)
+    })
+
+    Promise.all(promises).then(() => {
+      setLoading(false)
+      getEntradaList(
+        rowsPerPage, 
+        page, 
+        filterName, 
+        order, 
+        orderBy
+      )
+      handleCloseModal()
+      showSnack("Entrada cadastrda com sucesso", "success")
+    }).catch(e => {
+      showSnack("Falha ao cadastrda", "error")
+    })
   }
 
   const isEntradaNotFound = entradaList.list.length === 0

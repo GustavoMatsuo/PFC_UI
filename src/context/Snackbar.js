@@ -1,5 +1,6 @@
 import {
   createContext,
+  useMemo,
   useState
 } from "react"
 import { Alert, Snackbar } from "@mui/material"
@@ -30,6 +31,7 @@ export const SnackBarProvider = ({ children }) => {
       message
     })
     setIsOpen(true)
+    setTimeout(closeSnackBar, 6000)
   }
 
   const closeSnackBar = () => {
@@ -40,17 +42,24 @@ export const SnackBarProvider = ({ children }) => {
     setIsOpen(false)
   }
 
+  const contextValue = useMemo(() => ({
+    isOpen,
+    snackBar,
+    showSnack,
+  }), [isOpen, snackBar])
+
   return (
-    <SnackBarContext.Provider value={{ showSnack }}>
+    <SnackBarContext.Provider value={contextValue}>
       <Snackbar
-        open={isOpen}
-        autoHideDuration={6000}
-        onClose={closeSnackBar}
-        message={snackBar.message}
+        open={contextValue.isOpen}
         sx={{ minWidth: '240px'}}
       >
-        <Alert onClose={closeSnackBar} severity={snackBar.type} sx={{ width: '100%' }}>
-          {snackBar.message}
+        <Alert 
+          onClose={closeSnackBar} 
+          severity={contextValue.snackBar.type} 
+          sx={{ width: '100%' }}
+        >
+          {contextValue.snackBar.message}
         </Alert>
       </Snackbar>
       {children}

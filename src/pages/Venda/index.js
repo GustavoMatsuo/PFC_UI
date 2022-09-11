@@ -44,14 +44,6 @@ export default function Venda() {
 
   const handleAddProduto = (produto) => {
     let findProduto = null
-    //FUTURE
-    // if(produto && produto.codigo){
-    //   findProduto = produtoList.find(item => {
-    //     if(item.codigo == produto.codigo){
-    //       return item
-    //     }
-    //   })
-    // }else
     if(produto && produto.length > 5) {
       findProduto = produtoList.find(item => {
         if(item.codigo == produto){

@@ -15,6 +15,8 @@ import {
 import { LoadingButton } from '@mui/lab'
 import Iconify from 'src/components/Iconify'
 import api from '../../config/api'
+import { SnackBarContext } from 'src/context/Snackbar'
+import { useContext } from 'react'
 
 ProdutoForm.propTypes = {
   isEdit: PropTypes.bool,
@@ -35,6 +37,8 @@ export function ProdutoForm({
   categoriaList,
   openCategoria
 }) {
+  const { showSnack } = useContext(SnackBarContext)
+
   const ProdutoSchema = Yup.object().shape({
     nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
     codigo: Yup.string().required("Código de barras é obrigatório").min(5, "Código de barras esta muito curto"),
@@ -59,14 +63,13 @@ export function ProdutoForm({
       try {
         const reqType = isEdit? 'put':'post'
         await api[reqType]('/produto', values)
-        // const { status } = await api[reqType]('/produto', values)
-        // if(status == 201) {
-          closeModal()
-          getProdutoList()
-        // }
+        closeModal()
+        getProdutoList()
+        const msg = isEdit? "Produto atualizado com sucesso":"Produto criado com sucesso"
+        showSnack(msg, "success")
       }catch(e) {
-        // const {  } = e.response
-        console.log(e.response)
+        const msg = isEdit? "Falha ao atualizar produto":"Falha ao criar produto"
+        showSnack(msg, "error")
       }
     }
   })

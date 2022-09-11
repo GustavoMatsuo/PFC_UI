@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useContext } from 'react'
 import {
   Card,
   Table,
@@ -22,6 +22,7 @@ import { fCNPJ } from 'src/utils/formatNumber'
 import api from 'src/config/api'
 import { TableToolbar } from 'src/components/TableToolbar'
 import { debounce } from 'lodash'
+import { SnackBarContext } from 'src/context/Snackbar'
 
 const TABLE_HEAD = [
   { id: 'nome', label: 'Nome', alignRight: false },
@@ -38,10 +39,11 @@ export default function Fornecedor() {
   const [filterName, setFilterName] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [fornecedorList, setFornecedorList] = useState({list:[], total:0})
-
   const [showModal, setShowModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [selectedFornecedor, setselectedFornecedor] = useState(null)
+
+  const { showSnack } = useContext(SnackBarContext)
 
   useEffect(() => {
     getFornecedorList(
@@ -99,7 +101,11 @@ export default function Fornecedor() {
   }
 
   const handleChangeStatus = async(id) => {
-    await api.put('/fornecedor/status', { id })
+    await api.put('/fornecedor/status', { id }).then(() => {
+      showSnack("Status atualizado", "success")
+    }).catch(e => {
+      showSnack("Falha ao atualizar status", "error")
+    })
     getFornecedorList(
       rowsPerPage, 
       page, 

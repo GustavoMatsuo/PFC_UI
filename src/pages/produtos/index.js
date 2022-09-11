@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Grid } from '@mui/material'
 import { ModalEdit } from 'src/components/ModalEdit'
 import { ProdutoForm } from './ProdutoForm'
@@ -6,6 +6,7 @@ import { ProdutoCard } from './ProdutoCard'
 import { ModalCategoria } from 'src/modals/modalCategoria'
 import api from 'src/config/api'
 import { FabAdd } from 'src/components/FabAdd'
+import { SnackBarContext } from 'src/context/Snackbar'
 
 export default function Produto() {
   // const [openFilter, setOpenFilter] = useState(false)
@@ -16,6 +17,8 @@ export default function Produto() {
   const [fornecedorList, setFornecedorList] = useState([])
   const [categoriaList, setCategoriaList] = useState([])
   const [showCategoria, setShowCategoria] = useState(false)
+
+  const { showSnack } = useContext(SnackBarContext)
 
   useEffect(() => {
     getProdutoList()
@@ -47,7 +50,11 @@ export default function Produto() {
   // }
 
   const handleChangeStatus = async(id) => {
-    await api.put('/produto/status', { id })
+    await api.put('/produto/status', { id }).then(() => {
+      showSnack("Status atualizado", "success")
+    }).catch(e => {
+      showSnack("Falha ao atualizar status", "error")
+    })
     getProdutoList()
   }
 

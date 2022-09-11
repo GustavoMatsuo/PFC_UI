@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import {
   Card,
   Table,
@@ -21,6 +21,7 @@ import { UserForm } from './UserForm'
 import { ModalEdit } from 'src/components/ModalEdit'
 import api from 'src/config/api'
 import { TableToolbar } from 'src/components/TableToolbar'
+import { SnackBarContext } from 'src/context/Snackbar'
 
 const TABLE_HEAD = [
   { id: 'nome', label: 'Nome', alignRight: false },
@@ -37,10 +38,11 @@ export default function User() {
   const [filterName, setFilterName] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [userList, setUserList] = useState({list:[], total:0})
-
   const [showModal, setShowModal] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
+
+  const { showSnack } = useContext(SnackBarContext)
 
   useEffect(() => {
     getUserList(
@@ -98,7 +100,11 @@ export default function User() {
   }
 
   const handleChangeStatus = async(id) => {
-    await api.put('/usuario/status', { id })
+    await api.put('/usuario/status', { id }).then(() => {
+      showSnack("Status atualizado", "success")
+    }).catch(e => {
+      showSnack("Falha ao atualizar status", "error")
+    })
     getUserList(
       rowsPerPage, 
       page, 

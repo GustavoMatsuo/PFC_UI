@@ -5,8 +5,9 @@ import { Grid, Button, Typography } from '@mui/material'
 import { fCurrency } from 'src/utils/formatNumber'
 import api from 'src/config/api'
 import { LoadingButton } from '@mui/lab'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { ModalCliente } from 'src/modals/modalCliente'
+import { SnackBarContext } from 'src/context/Snackbar'
 
 VendaForm.propTypes = {
   vendaList: PropTypes.array,
@@ -23,6 +24,8 @@ export function VendaForm({
 }) {
   const [cliente, setCliente] = useState(null)
   const [isOpenCliente, setIsOpenCliente] = useState(false)
+  
+  const { showSnack } = useContext(SnackBarContext)
 
   const VendaSchema = Yup.object().shape({
     cliente: Yup.object()
@@ -56,10 +59,11 @@ export function VendaForm({
           saidas: saidaList
         }
         await api.post('/venda', vendaFormatted)
-          .then(() => handleClear())
+        handleClear()
+        showSnack("Venda realizada com sucesso", "success")
         actions.setSubmitting(false)
       } catch(e) {
-        console.log(e.response)
+        showSnack("Falha ao realizar a venda", "error")
       }
     }
   })

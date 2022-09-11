@@ -4,6 +4,8 @@ import { useFormik, Form, FormikProvider } from 'formik'
 import { TextField, Grid } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import api from '../../config/api'
+import { SnackBarContext } from 'src/context/Snackbar'
+import { useContext } from 'react'
 
 FornecedorForm.propTypes = {
   isEdit: PropTypes.bool,
@@ -18,6 +20,8 @@ export function FornecedorForm({
   closeModal,
   getFornecedorList
 }) {
+  const { showSnack } = useContext(SnackBarContext)
+
   const FornecedorSchema = Yup.object().shape({
     nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
     email: Yup.string().email('Email deve ser um endereço de e-mail válido').required('Email é obrigatório'),
@@ -66,14 +70,13 @@ export function FornecedorForm({
         }
         const reqType = isEdit? 'put':'post'
         await api[reqType]('/fornecedor', formatForm)
-        // const { status } = await api[reqType]('/fornecedor', formatForm)
-        // if(status == 201) {
-          closeModal()
-          getFornecedorList()
-        // }
+        closeModal()
+        getFornecedorList()
+        const msg = isEdit? "Fornecedor atualizado com sucesso":"Fornecedor criado com sucesso"
+        showSnack(msg, "success")      
       }catch(e) {
-        // const {  } = e.response
-        console.log(e.response)
+        const msg = isEdit? "Falha ao atualizar fornecedor":"Falha ao criar fornecedor"
+        showSnack(msg, "error")
       }
     }
   })

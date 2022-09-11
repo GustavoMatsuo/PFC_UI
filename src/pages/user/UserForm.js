@@ -1,11 +1,12 @@
 import * as Yup from 'yup'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useFormik, Form, FormikProvider } from 'formik'
 import { Stack, TextField, IconButton, InputAdornment, Select, MenuItem, InputLabel, FormControl, FormHelperText } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Iconify from '../../components/Iconify'
 import api from '../../config/api'
+import { SnackBarContext } from 'src/context/Snackbar'
 
 UserForm.propTypes = {
   isEdit: PropTypes.bool,
@@ -22,6 +23,8 @@ export function UserForm({
 }) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  const { showSnack } = useContext(SnackBarContext)
 
   const UserSchema = Yup.object().shape({
     nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
@@ -58,14 +61,13 @@ export function UserForm({
       try {
         const reqType = isEdit? 'put':'post'
         await api[reqType]('/usuario', values)
-        // const { status } = await api[reqType]('/users', values)
-        // if(status == 201) {
-          closeModal()
-          getUserList()
-        // }
+        closeModal()
+        getUserList()
+        const msg = isEdit? "Usuário atualizado com sucesso":"Usuário criado com sucesso"
+        showSnack(msg, "success")
       }catch(e) {
-        // const {  } = e.response
-        console.log(e.response)
+        const msg = isEdit? "Falha ao atualizar usuário":"Falha ao criar usuário"
+        showSnack(msg, "error")
       }
     },
   })
