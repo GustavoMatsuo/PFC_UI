@@ -6,7 +6,15 @@ export const PrivateRoute = ({ component: Component, roles }) => {
 
   // ADD LOGIN TEST
 
-  if (roles && (roles === userData.role || userData.role === Roles.ADM)) {
+  if (roles && userData.role === Roles.ADM_GLOBAL) {
+    return <Component />
+  }
+
+  if (
+    roles && 
+    roles !== Roles.ADM_GLOBAL && 
+    (roles === userData.role || userData.role === Roles.ADM)
+  ) {
     return <Component />
   }
 

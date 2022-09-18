@@ -33,7 +33,9 @@ DashboardNavbar.propTypes = {
 const TitleNavBar = () => {
   let title = String(window.location.pathname).toLowerCase()
   title = title.replace('/dashboard', '').replaceAll('/', '')
-  title = title.charAt(0).toUpperCase() + title.slice(1)
+
+  title = title === 'home'? '' : title.charAt(0).toUpperCase() + title.slice(1)
+
   return <Typography variant="h4" noMargin color='black'>{title}</Typography>
 }
 

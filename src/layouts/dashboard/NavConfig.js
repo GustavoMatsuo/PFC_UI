@@ -2,7 +2,8 @@ import Iconify from '../../components/Iconify'
 
 export const Roles = {
   EMP: 'employee',
-  ADM: 'admin'
+  ADM: 'admin',
+  ADM_GLOBAL: "admin global"
 }
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />
@@ -49,6 +50,12 @@ const navConfig = [
     path: '/dashboard/venda',
     icon: getIcon('eva:shopping-cart-fill'),
     role: Roles.EMP
+  },
+  {
+    title: 'Gerenciamento',
+    path: '/dashboard/gerenciamento',
+    icon: getIcon('eva:options-2-fill'),
+    role: Roles.ADM_GLOBAL
   }
 ]
 

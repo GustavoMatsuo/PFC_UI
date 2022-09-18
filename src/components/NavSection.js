@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom'
 import { alpha, useTheme, styled } from '@mui/material/styles'
 import { Box, List, ListItemText, ListItemIcon, ListItemButton } from '@mui/material'
+import { Roles } from 'src/layouts/dashboard/NavConfig'
 
 const ListItemStyle = styled((props) => <ListItemButton disableGutters {...props} />)(({ theme }) => ({
   ...theme.typography.body2,
@@ -42,7 +43,23 @@ function NavItem({ item, active }) {
 
   const userData = JSON.parse(localStorage.getItem('user_data'))
 
-  return item.role === userData.role || userData.role === 'admin'?
+  if(userData.role === Roles.ADM_GLOBAL){
+    return (
+      <ListItemStyle
+        component={RouterLink}
+        to={path}
+        sx={{...(isActiveRoot && activeRootStyle)}}
+      >
+        <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
+        <ListItemText disableTypography primary={title} />
+        {info && info}
+      </ListItemStyle>
+    )
+  }
+
+  return ( 
+    (item.role === userData.role || userData.role === Roles.ADM) && 
+    item.role !== Roles.ADM_GLOBAL &&
     <ListItemStyle
       component={RouterLink}
       to={path}
@@ -52,8 +69,7 @@ function NavItem({ item, active }) {
       <ListItemText disableTypography primary={title} />
       {info && info}
     </ListItemStyle>
-    :
-    null
+  )
 }
 
 NavSection.propTypes = {

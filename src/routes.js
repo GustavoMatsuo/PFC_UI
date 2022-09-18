@@ -16,6 +16,7 @@ import Loading from './pages/loading'
 import Reset from './pages/reset'
 import { PrivateRoute } from './components/PrivateRoute'
 import { Roles } from './layouts/dashboard/NavConfig'
+import Gerenciamento from './pages/gerenciamento'
 
 export default function Router() {
   const isLoggedIn = localStorage.getItem("token")
@@ -31,6 +32,7 @@ export default function Router() {
         { path: 'entrada', element: <PrivateRoute component={Entrada} roles={Roles.ADM}/> },
         { path: 'saida', element: <PrivateRoute component={Saida} roles={Roles.EMP}/> },
         { path: 'venda', element: <PrivateRoute component={Venda} roles={Roles.EMP}/> },
+        { path: 'gerenciamento', element: <PrivateRoute component={Gerenciamento} roles={Roles.ADM_GLOBAL}/> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
     },
