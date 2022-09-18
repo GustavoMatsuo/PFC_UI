@@ -4,6 +4,7 @@ import { alpha } from '@mui/material/styles'
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material'
 import MenuPopover from '../../components/MenuPopover'
 import { ModalAnuncio } from 'src/modals/modalAnuncio'
+import { Roles } from './NavConfig'
 
 const MENU_OPTIONS = [
   {
@@ -57,6 +58,7 @@ export default function AccountPopover() {
   }
 
   const anchorRef = useRef(null)
+  const userData = JSON.parse(localStorage.getItem('user_data'))
 
   return (
     <>
@@ -112,11 +114,15 @@ export default function AccountPopover() {
           ))}
         </Stack> */}
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
+       {userData.role !== Roles.EMP &&
+        <>
+          <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleOpenAnuncio} sx={{ m: 1 }}>
-          Gerenciar anúncio
-        </MenuItem>
+          <MenuItem onClick={handleOpenAnuncio} sx={{ m: 1 }}>
+            Gerenciar anúncio
+          </MenuItem>
+        </>
+        }
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
