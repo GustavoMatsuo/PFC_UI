@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { Card, Typography, Box } from '@mui/material'
 import { 
   Timeline,
@@ -10,57 +9,11 @@ import {
   TimelineConnector 
 } from '@mui/lab'
 import { fDateSimple } from '../../utils/formatTime'
-
-// InformationTimeline.propTypes = {
-// }
-
-const MOCK_LIST = [
-  { 
-    tipo: 'primary',
-    titulo: "Titulo 1",
-    data: '12/08/2022',
-    texto: "Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend"
-  },
-  { 
-    tipo: 'error',
-    titulo: "Titulo",
-    data: '12/08/2022',
-    texto: "Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend"
-  },
-  { 
-    tipo: 'primary',
-    titulo: "Titulo",
-    data: '12/08/2022',
-    texto: "Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend"
-  },
-  { 
-    tipo: 'primary',
-    titulo: "Titulo",
-    data: '12/08/2022',
-    texto: "Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend"
-  },
-  { 
-    tipo: 'primary',
-    titulo: "Titulo",
-    data: '12/08/2022',
-    texto: "Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend"
-  },
-  { 
-    tipo: 'primary',
-    titulo: "Titulo",
-    data: '12/08/2022',
-    texto: "Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend"
-  },
-  { 
-    tipo: 'primary',
-    titulo: "Titulo ultimo",
-    data: '12/08/2022',
-    texto: "Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend Texto para moco no frontend"
-  }
-]
+import api from 'src/config/api'
 
 export function InformationTimeline() {
   const [divHeight, setDivHeight] = useState(0)
+  const [anuncioList, setAnuncioList] = useState([])
 
   let produtoRef = useRef(null)
 
@@ -69,6 +22,15 @@ export function InformationTimeline() {
       setDivHeight(produtoRef.current.offsetHeight)
     }
   }, [produtoRef])
+
+  useEffect(() => {
+    getAnuncioList()
+  }, [])
+
+  const getAnuncioList = async() => {
+    const { data } = await api.get('/anuncio/simple')
+    setAnuncioList(data)
+  }
 
   return (
     <Card  sx={{height: '100%', ml: 3, p: 3, position: 'relative'}} >
@@ -102,12 +64,12 @@ export function InformationTimeline() {
         }}
       >
         <Timeline sx={{p: 0, m: 0}}>
-          {MOCK_LIST.map(item => {
-            const { tipo, titulo, data, texto } = item
+          {anuncioList.map(item => {
+            const { titulo, data, texto } = item
             return (
               <TimelineItem>
                 <TimelineSeparator>
-                  <TimelineDot color={tipo || 'primary'} />
+                  <TimelineDot color='primary'/>
                   <TimelineConnector />
                 </TimelineSeparator>
           

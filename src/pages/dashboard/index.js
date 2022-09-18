@@ -1,8 +1,7 @@
-import { useEffect, useState, useRef, useContext } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Card, Grid, Typography } from '@mui/material'
 import { VendaChart } from './VendaChart'
 import { InformationTimeline } from './InformationTimeline'
-import { SnackBarContext } from 'src/context/Snackbar'
 
 export default function Dashboard() {
   const [divHeight, setDivHeight] = useState(0)
@@ -16,8 +15,6 @@ export default function Dashboard() {
   }, [contentRef])
 
   const userData = JSON.parse(localStorage.getItem('user_data'))
-
-  const { showSnack } = useContext(SnackBarContext)
 
   return (
     <Grid container sx={{ height: '100%'}}>
