@@ -179,7 +179,7 @@ export default function User() {
                           status={status}
                           handleChangeStatus={() => handleChangeStatus(id_usuario)}
                           handleEdit={() => handleEditUser(row)}
-                          disabledStatus={email === userData.email}
+                          hideStatus={email === userData.email}
                         />
                       </TableCell>
                     </TableRow>

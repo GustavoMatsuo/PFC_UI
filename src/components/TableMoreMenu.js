@@ -7,14 +7,14 @@ TableMoreMenu.propTypes = {
   status: PropTypes.bool,
   handleChangeStatus: PropTypes.func,
   handleEdit: PropTypes.func,
-  disabledStatus: PropTypes.bool
+  hideStatus: PropTypes.bool
 }
 
 export function TableMoreMenu({
   status,
   handleChangeStatus,
   handleEdit,
-  disabledStatus
+  hideStatus
 }) {
   const ref = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -45,13 +45,13 @@ export function TableMoreMenu({
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={onChangeStatus} disabled={disabledStatus}>
+        {!hideStatus && <MenuItem sx={{ color: 'text.secondary' }} onClick={onChangeStatus}>
           <ListItemIcon>
             <Iconify icon={!status?"eva:checkmark-circle-2-outline":"eva:close-circle-outline"} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary={status? "Inativar":"Ativar"} primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-
+}
         <MenuItem sx={{ color: 'text.secondary' }} onClick={onEdit}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
