@@ -50,12 +50,17 @@ export function ModalAnuncioForm({
 
   const handleSubmitAfterConfirm = async() => {
     await api.post('/anuncio', values)
-    resetForm()
-    closeForm()
     setConfirm(false)
+    handleClose()
     getAnuncioList()
     showSnack("Anúncio criado com sucesso", "success")
   }
+
+  const handleClose = () => {
+    closeForm()
+    resetForm()
+  }
+  
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -89,7 +94,7 @@ export function ModalAnuncioForm({
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Button fullWidth size="large" color='error' variant="contained" onClick={closeForm}>
+            <Button fullWidth size="large" color='error' variant="contained" onClick={handleClose}>
               Cancelar
             </Button>
           </Grid>

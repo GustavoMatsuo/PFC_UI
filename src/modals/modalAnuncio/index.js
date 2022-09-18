@@ -66,7 +66,7 @@ export function ModalAnuncio({ isOpen, handleClose }) {
       <ModalCustom
         isOpen={isOpen}
         handleClose={handleCloseAnuncio}
-        modalWidth='940px'
+        modalWidth='720px'
         content={
           <Grid>
             <PageHeaderList
@@ -93,7 +93,7 @@ export function ModalAnuncio({ isOpen, handleClose }) {
               sx={{
                 overflow: 'auto',
                 width: '100%',
-                maxHeight: '50vh',
+                maxHeight: '33vh',
               }}
             >
               {anuncioList.map((item, index) => {
