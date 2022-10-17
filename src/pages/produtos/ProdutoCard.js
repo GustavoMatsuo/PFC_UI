@@ -29,7 +29,7 @@ export function ProdutoCard({
 }) {
   const theme = useTheme()
 
-  const { nome, valor_unitario, status, estoque_minimo, estoque, categoria } = product
+  const { nome, valor_unitario, status, estoque_minimo, estoque, categoria, desconto } = product
 
   const calcEstoque = estoque.qtd > estoque_minimo
 
@@ -66,8 +66,8 @@ export function ProdutoCard({
             {categoria.nome}
           </Label>
         </Stack>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Tooltip title={`Estoque mínimo: ${estoque_minimo}`} placement="bottom" arrow>
+        <Stack direction="column" alignItems="space-between" justifyContent="center">
+          <Tooltip title={`Estoque mínimo: ${estoque_minimo}`} placement="left" arrow>
             <Typography 
               variant="subtitle2" 
               color={calcEstoque? 
@@ -79,8 +79,22 @@ export function ProdutoCard({
               Quantidade: {estoque.qtd}
             </Typography>
           </Tooltip>
-          <Typography variant="subtitle2">
-            R$&nbsp;{fCurrency(valor_unitario)}
+          <Typography component="span" variant="body1">
+            R$&nbsp;
+            {desconto &&
+              <Typography
+                component="span"
+                variant="body1"
+                sx={{
+                  color: 'text.disabled',
+                  textDecoration: 'line-through',
+                  marginRight: '8px'
+                }}
+              >
+                {fCurrency(valor_unitario)}
+              </Typography>}
+              {fCurrency(valor_unitario - desconto)
+            }
           </Typography>
         </Stack>
       </Stack>

@@ -23,6 +23,7 @@ export default function Venda() {
   const [searchValue, setSearchValue] = useState('')
   const [vendaList, setVendaList] = useState([])
   const [valorTotal, setValorTotal] = useState(0)
+  const [descontoTotal, setDescontoTotal] = useState(0)
   const [divHeight, setDivHeight] = useState(0)
 
   let produtoRef = useRef(null)
@@ -93,12 +94,17 @@ export default function Venda() {
     const valorTotal = newList.reduce(
       (prev, current) => prev + (current.valor_unitario * current.qtd), 0
     )
+    const descontoTotal = newList.reduce(
+      (prev, current) => prev + (current.desconto * current.qtd), 0
+    )
     setValorTotal(valorTotal)
+    setDescontoTotal(descontoTotal)
   }
 
   const clearVenda = () => {
     setVendaList([])
     setValorTotal(0)
+    setDescontoTotal(0)
   }
 
   const theme = useTheme()
@@ -182,7 +188,7 @@ export default function Venda() {
                   </ListItemAvatar>
                   <ListItemText 
                     primary={`${item.qtd} x ${item.nome}`}
-                    secondary={`Total: R$ ${fCurrency(item.valor_unitario * item.qtd)}`}
+                    secondary={`Total: R$ ${fCurrency((item.valor_unitario - item.desconto) * item.qtd)}`}
                   />
                 </ListItem>
               )}
@@ -191,7 +197,7 @@ export default function Venda() {
               <VendaForm
                 vendaList={vendaList}
                 subtotal={valorTotal}
-                desconto={0}
+                desconto={descontoTotal}
                 clearVenda={clearVenda}
               />
             </div>

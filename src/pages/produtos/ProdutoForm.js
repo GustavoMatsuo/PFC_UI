@@ -10,7 +10,8 @@ import {
   MenuItem, 
   FormHelperText, 
   Button, 
-  Tooltip
+  Tooltip,
+  InputAdornment
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Iconify from 'src/components/Iconify'
@@ -55,6 +56,7 @@ export function ProdutoForm({
       codigo: isEdit? selectedProduto.codigo:"",
       fornecedor: isEdit? selectedProduto.fornecedor.id_fornecedor:"",
       valor_unitario: isEdit? selectedProduto.valor_unitario:undefined, 
+      desconto: isEdit? selectedProduto.desconto:undefined, 
       estoque_minimo: isEdit? selectedProduto.estoque_minimo:undefined,
       categoria: isEdit? selectedProduto.categoria.id_categoria:""
     },
@@ -74,7 +76,12 @@ export function ProdutoForm({
     }
   })
 
-  const { errors, touched, isSubmitting, handleSubmit, getFieldProps } = formik
+  const { errors, touched, isSubmitting, handleSubmit, getFieldProps, values } = formik
+
+  const descontoMsg = 
+    Number.parseFloat(values.desconto) > Number.parseFloat(values.valor_unitario)? 
+      "Não é possivel dar desconto maior que o total":""
+
 
   return (
     <FormikProvider value={formik}>
@@ -122,17 +129,20 @@ export function ProdutoForm({
               </FormHelperText>
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField
               fullWidth
               type="number"
               label="Valor Unitário"
+              InputProps={{
+                startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+              }}  
               {...getFieldProps('valor_unitario')}
               error={Boolean(touched.valor_unitario && errors.valor_unitario)}
               helperText={touched.valor_unitario && errors.valor_unitario}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField
               fullWidth
               type="number"
@@ -140,6 +150,19 @@ export function ProdutoForm({
               {...getFieldProps('estoque_minimo')}
               error={Boolean(touched.estoque_minimo && errors.estoque_minimo)}
               helperText={touched.estoque_minimo && errors.estoque_minimo}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              fullWidth
+              type="number"
+              label="Desconto (R$)"
+              InputProps={{
+                startAdornment: <InputAdornment position="start">R$</InputAdornment>,
+              }}
+              {...getFieldProps('desconto')}
+              error={Boolean(touched.desconto && errors.desconto) || descontoMsg.length > 0}
+              helperText={(touched.desconto && errors.desconto) || descontoMsg}
             />
           </Grid>
           <Grid item xs={10}>

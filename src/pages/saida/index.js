@@ -24,6 +24,7 @@ const TABLE_HEAD = [
   { id: 'qtd', label: 'Quantidade', alignRight: false },
   { id: 'data_saida', label: 'Data da saida', alignRight: false },
   { id: 'valor_unitario', label: 'Valor unitário', alignRight: false },
+  { id: 'desconto', label: 'Desconto', alignRight: false },
 ]
 
 export default function Saida() {
@@ -110,7 +111,7 @@ export default function Saida() {
               />
               <TableBody>
                 {saidaList.list.map((row) => {
-                  const { id_saida, produto, venda, qtd, data_saida, valor_unitario } = row
+                  const { id_saida, produto, venda, qtd, data_saida, valor_unitario, desconto } = row
                   const CodVenda = venda? String(venda.id_venda).substring(0, 5):'-'
                   return (
                     <TableRow
@@ -131,6 +132,7 @@ export default function Saida() {
                       </TableCell>
                       <TableCell align="left">{fDateTime(data_saida)}</TableCell>
                       <TableCell align="left">R$&nbsp;{fCurrency(valor_unitario)}</TableCell>
+                      <TableCell align="left">R$&nbsp;{fCurrency(desconto)}</TableCell>
                     </TableRow>
                   )
                 })}

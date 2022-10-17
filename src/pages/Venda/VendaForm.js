@@ -51,6 +51,7 @@ export function VendaForm({
           return {
             produto: item.id_produto,
             qtd: item.qtd,
+            desconto: item.desconto,
             valor_unitario: fCurrency(item.valor_unitario)
           }
         })
