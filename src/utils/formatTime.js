@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow } from 'date-fns'
+import { format, formatDistanceToNow, parse } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 
 export function fDate(date) {
@@ -15,6 +15,11 @@ export function fDateTimeSuffix(date) {
 
 export function fDateSimple(date) {
   return format(new Date(date), 'dd/MM/yyyy', { locale: ptBR })
+}
+
+export function fDateChartMonth(date) {
+  const dateFormatted = parse(date, 'yyyy-MM', new Date())
+  return format(new Date(dateFormatted), 'MMM', { locale: ptBR }).toUpperCase()
 }
 
 export function fToNow(date) {

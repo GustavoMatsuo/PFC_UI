@@ -1,8 +1,11 @@
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Card, Typography } from '@mui/material'
 import ReactApexChart from 'react-apexcharts'
 import { BaseOptionChart } from '../../components/chart'
 import { merge } from 'lodash'
+import api from 'src/config/api'
+import { fDateChartMonth } from 'src/utils/formatTime'
 
 VendaChart.propTypes = {
   color: PropTypes.string,
@@ -11,14 +14,14 @@ VendaChart.propTypes = {
   sx: PropTypes.object,
 }
 
-const MOCK_CHART = {
-  label: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+const INITIAL_DATA = {
+  label: [],
   data: [
     {
       name: 'Vendas',
       type: 'area',
       fill: 'gradient',
-      data: [80, 60, 22, 10, 29, 44]
+      data: []
     }
   ]
 }
@@ -30,9 +33,11 @@ export function VendaChart({
   sx, 
   ...other 
 }) {
+  const [vendasChartData, setVendasChartData] = useState(INITIAL_DATA)
+
   const mockChartOptions = merge(BaseOptionChart(), {
-    fill: { type: MOCK_CHART.data.map((i) => i.fill) },
-    labels: MOCK_CHART.label,
+    fill: { type: vendasChartData.data.map((i) => i.fill) },
+    labels: vendasChartData.label,
     yaxis: { show: false },
     xaxis: {
       type: 'category'
@@ -42,6 +47,23 @@ export function VendaChart({
       intersect: false
     }
   })
+
+  useEffect(() => {
+    getVendasChart()
+  }, [])
+
+  const getVendasChart = async() => {
+    const { data } = await api.get('/venda/chart')
+
+    let newData = vendasChartData.data
+    newData[0].data = data.data
+    let newLabel = data.label.map(item => fDateChartMonth(item))
+
+    setVendasChartData({
+      data: newData,
+      label: newLabel
+    })
+  }
 
   return (
     <Card sx={{...sx}} {...other}>
@@ -54,7 +76,7 @@ export function VendaChart({
         </Typography>
         <ReactApexChart 
           options={mockChartOptions}
-          series={MOCK_CHART.data} 
+          series={vendasChartData.data} 
           type="area" 
           height={height} 
         />
