@@ -62,6 +62,26 @@ export default function Dashboard() {
     .catch((error) => console.log(error))
   }
 
+  const getEstoqueMinimo = async() => {
+    const filename = `estoque_minimo_${fDateSimple(new Date())}.xlsx`
+    await api.get('/estoque/estoque_minimo', {
+      responseType: 'blob',
+      headers: {
+        'Content-Disposition': `attachment; filename=${filename}`,
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      }
+    })
+    .then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename)
+      document.body.appendChild(link)
+      link.click()
+    })
+    .catch((error) => console.log(error))
+  }
+
   return (
     <Grid container sx={{ height: '100%' }}>
       <Grid item xs={12} sm={12} md={8} sx={{ height: '100%' }}
@@ -78,7 +98,7 @@ export default function Dashboard() {
             <Grid item xs={12} sm={12} md={4}>
               <CardButton
                 title="Resumo do dia"
-                subtitle="Gerar relatório diário."
+                subtitle="Relatório diário."
                 onClick={getDaily}
                 btnText="Baixar"
               />
@@ -86,16 +106,16 @@ export default function Dashboard() {
             <Grid item xs={12} sm={12} md={4}>
               <CardButton
                 title="Inventário"
-                subtitle="Gerar relatório de inventário."
+                subtitle="Relatório de inventário."
                 onClick={getInventario}
                 btnText="Baixar"
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <CardButton
-                title="..."
-                subtitle="..."
-                onClick={() => {}}
+                title="Estoque mínimo"
+                subtitle="Relatório de estoque mínimo."
+                onClick={getEstoqueMinimo}
                 btnText="Baixar"
               />
             </Grid>
