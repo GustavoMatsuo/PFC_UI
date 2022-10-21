@@ -142,7 +142,7 @@ export function UsuarioTable({ empresaId }) {
           placeholder='Pesquisar Usuário...' 
           filterName={filterName} 
           onFilterName={handleFilterByName}
-          buttonRight={handleNewUser}
+          buttonRight={empresaId? handleNewUser:() => {}}
           buttonRightLabel="Adicionar"
         />
         <Scrollbar>

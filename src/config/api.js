@@ -22,3 +22,7 @@ api.interceptors.response.use(response => response, async function (error) {
 })
 
 export default api
+
+export const api_external = axios.create({
+  baseURL: "http://localhost:4000"
+})

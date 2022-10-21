@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AnimatedBackground from 'src/components/animatedBackground'
 import { useEffect } from 'react'
 import { api_external } from 'src/config/api'
-import { ResetForm } from './ResetForm'
+import { VerificarForm } from './VerificarForm'
 
 const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -31,7 +31,7 @@ const SectionStyle = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }))
 
-export default function Reset() {
+export default function Verificar() {
   let { token } = useParams()
   const navigate = useNavigate()
 
@@ -46,7 +46,7 @@ export default function Reset() {
           Authorization: token
         }
       }
-      await api_external.post("/usuario/auth", null, config)
+      const res = await api_external.post("/usuario/auth", null, config)
     }catch(e) {
       navigate('/login', { replace: true })
     }
@@ -60,19 +60,19 @@ export default function Reset() {
         {mdUp? (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 5, mb: 5 }}>
-              Fique tranquilo, é rapido e seguro criar uma nova senha
+              Crie sua senha e aproveite toda facilidade do nosso sistema.
             </Typography>
           </SectionStyle>
         ): (<span/>)}
         <ContentStyle>
           <Card sx={{ padding: 3 }}>
             <Typography variant="h4" gutterBottom>
-              Redefinir senha
+              Crie sua senha
             </Typography>
             <Typography sx={{ color: 'text.secondary', mb: 3 }}>
-              Digite sua nova senha
+              Essa senha será usa para logar no sistema
             </Typography>
-            <ResetForm token={token}/>
+            <VerificarForm token={token}/>
           </Card>
         </ContentStyle>
         {!mdUp && (<span/>)}

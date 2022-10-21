@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
+import { PrivateRoute } from './components/PrivateRoute'
+import { Roles } from './layouts/dashboard/NavConfig'
 import DashboardLayout from './layouts/dashboard'
 import LogoOnlyLayout from './layouts/LogoOnlyLayout'
 
@@ -14,9 +16,8 @@ import Venda from './pages/venda'
 import Saida from './pages/saida'
 import Loading from './pages/loading'
 import Reset from './pages/reset'
-import { PrivateRoute } from './components/PrivateRoute'
-import { Roles } from './layouts/dashboard/NavConfig'
 import Gerenciamento from './pages/gerenciamento'
+import Verificar from './pages/verificar'
 
 export default function Router() {
   const isLoggedIn = localStorage.getItem("token")
@@ -44,6 +45,7 @@ export default function Router() {
         { path: '/', element: <Navigate to="/login" /> },
         { path: 'login', element: <Login /> },
         { path: 'reset/:token', element: <Reset /> },
+        { path: 'verificar/:token', element: <Verificar /> },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

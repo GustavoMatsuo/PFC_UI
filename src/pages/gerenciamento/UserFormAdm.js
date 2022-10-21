@@ -7,6 +7,7 @@ import { LoadingButton } from '@mui/lab'
 import Iconify from '../../components/Iconify'
 import api from '../../config/api'
 import { SnackBarContext } from 'src/context/Snackbar'
+import { v4 as uuidv4 } from 'uuid'
 
 UserForm.propTypes = {
   empresaId: PropTypes.string,
@@ -33,9 +34,9 @@ export function UserForm({
     email: Yup.string().email('Email deve ser um endereço de e-mail válido')
       .required('Email é obrigatório'),
     cargo: Yup.string().required('Cargo é obrigatório'),
-    senha: Yup.string().required('Senha é obrigatório').min(3, "Senha esta muito curta"),
-    confirmSenha: Yup.string().required('Confirmar Senha é obrigatório')
-      .oneOf([Yup.ref('senha'), null], 'As senhas devem ser iguais')
+    // senha: Yup.string().required('Senha é obrigatório').min(3, "Senha esta muito curta"),
+    // confirmSenha: Yup.string().required('Confirmar Senha é obrigatório')
+    //   .oneOf([Yup.ref('senha'), null], 'As senhas devem ser iguais')
   })
 
   const UserSchemaEdit = Yup.object().shape({
@@ -43,9 +44,9 @@ export function UserForm({
     email: Yup.string().email('Email deve ser um endereço de e-mail válido')
       .required('Email é obrigatório'),
     cargo: Yup.string().required('Cargo é obrigatório'),
-    senha: Yup.string().min(3, "Senha esta muito curta"),
-    confirmSenha: Yup.string()
-      .oneOf([Yup.ref('senha'), null], 'As senhas devem ser iguais')
+    // senha: Yup.string().min(3, "Senha esta muito curta"),
+    // confirmSenha: Yup.string()
+    //   .oneOf([Yup.ref('senha'), null], 'As senhas devem ser iguais')
   })
 
   const formik = useFormik({
@@ -55,8 +56,8 @@ export function UserForm({
       nome: isEdit? selectedUser.nome:'',
       email: isEdit? selectedUser.email:'',
       cargo: isEdit? selectedUser.cargo:'',
-      senha: '',
-      confirmSenha: '',
+      senha: uuidv4()
+      // confirmSenha: '',
     },
     validationSchema: isEdit? UserSchemaEdit:UserSchema,
     onSubmit: async(values, actions) => {
@@ -119,7 +120,7 @@ export function UserForm({
               {touched.cargo && errors.cargo}
             </FormHelperText>
           </FormControl>
-          <TextField
+          {/* <TextField
             fullWidth
             autoComplete="current-password"
             type={showPassword ? 'text' : 'password'}
@@ -154,7 +155,7 @@ export function UserForm({
             }}
             error={Boolean(touched.confirmSenha && errors.confirmSenha)}
             helperText={touched.confirmSenha && errors.confirmSenha}
-          />
+          /> */}
         </Stack>
 
         <LoadingButton 
