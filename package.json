@@ -55,6 +55,7 @@
     "react-scripts": "^5.0.0",
     "simplebar": "^5.3.6",
     "simplebar-react": "^2.3.6",
+    "uuid": "^9.0.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
