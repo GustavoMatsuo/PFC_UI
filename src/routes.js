@@ -10,7 +10,6 @@ import User from './pages/user'
 import Produtos from './pages/produtos'
 import Dashboard from './pages/dashboard'
 import Page404 from './pages/page_404'
-import Fornecedor from './pages/fornecedor'
 import Entrada from './pages/entrada'
 import Venda from './pages/venda'
 import Saida from './pages/saida'
@@ -18,6 +17,7 @@ import Loading from './pages/loading'
 import Reset from './pages/reset'
 import Gerenciamento from './pages/gerenciamento'
 import Verificar from './pages/verificar'
+import Fornecedor from './pages/fornecedor'
 
 export default function Router() {
   const isLoggedIn = localStorage.getItem("token")
