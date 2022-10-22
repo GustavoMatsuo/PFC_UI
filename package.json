@@ -2,7 +2,7 @@
   "name": "tag-project",
   "author": "Gustavo Matsuo",
   "licence": "MIT",
-  "version": "1.0",
+  "version": "1.0.0",
   "private": false,
   "scripts": {
     "start": "react-scripts start",
