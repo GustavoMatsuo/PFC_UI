@@ -7,6 +7,7 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout'
 
 import Login from './pages/login'
 import User from './pages/user'
+import Fornecedores from './pages/fornecedores'
 import Produtos from './pages/produtos'
 import Dashboard from './pages/dashboard'
 import Page404 from './pages/page_404'
@@ -17,7 +18,6 @@ import Loading from './pages/loading'
 import Reset from './pages/reset'
 import Gerenciamento from './pages/gerenciamento'
 import Verificar from './pages/verificar'
-import Fornecedor from './pages/fornecedor'
 
 export default function Router() {
   const isLoggedIn = localStorage.getItem("token")
@@ -28,7 +28,7 @@ export default function Router() {
       children: [
         { path: 'home', element: <PrivateRoute component={Dashboard} roles={Roles.EMP}/> },
         { path: 'usuario', element: <PrivateRoute component={User} roles={Roles.ADM}/> },
-        { path: 'fornecedor', element: <PrivateRoute component={Fornecedor} roles={Roles.ADM}/> },
+        { path: 'fornecedor', element: <PrivateRoute component={Fornecedores} roles={Roles.ADM}/> },
         { path: 'produto', element: <PrivateRoute component={Produtos} roles={Roles.ADM}/> },
         { path: 'entrada', element: <PrivateRoute component={Entrada} roles={Roles.ADM}/> },
         { path: 'saida', element: <PrivateRoute component={Saida} roles={Roles.EMP}/> },

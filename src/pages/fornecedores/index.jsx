@@ -32,7 +32,7 @@ const TABLE_HEAD = [
   { id: '' }
 ]
 
-export default function Fornecedor() {
+export default function Fornecedores() {
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('nome')
