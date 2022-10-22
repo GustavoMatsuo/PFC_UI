@@ -10,7 +10,7 @@ import User from './pages/user'
 import Produtos from './pages/produtos'
 import Dashboard from './pages/dashboard'
 import Page404 from './pages/page_404'
-// import Fornecedor from './pages/fornecedor'
+import Fornecedor from './pages/fornecedor'
 import Entrada from './pages/entrada'
 import Venda from './pages/venda'
 import Saida from './pages/saida'
@@ -28,7 +28,7 @@ export default function Router() {
       children: [
         { path: 'home', element: <PrivateRoute component={Dashboard} roles={Roles.EMP}/> },
         { path: 'usuario', element: <PrivateRoute component={User} roles={Roles.ADM}/> },
-        // { path: 'fornecedor', element: <PrivateRoute component={Fornecedor} roles={Roles.ADM}/> },
+        { path: 'fornecedor', element: <PrivateRoute component={Fornecedor} roles={Roles.ADM}/> },
         { path: 'produto', element: <PrivateRoute component={Produtos} roles={Roles.ADM}/> },
         { path: 'entrada', element: <PrivateRoute component={Entrada} roles={Roles.ADM}/> },
         { path: 'saida', element: <PrivateRoute component={Saida} roles={Roles.EMP}/> },
