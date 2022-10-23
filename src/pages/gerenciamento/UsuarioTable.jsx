@@ -193,11 +193,17 @@ export function UsuarioTable({ empresaId }) {
                 })}
               </TableBody>
 
-              {isUserNotFound && (
-                <>
-                  <Typography>Seleciona uma empresa</Typography>
-                  <TableNotFound filterProps={filterName}/>
-                </>
+              {!empresaId && (
+                <TableBody>
+                  <TableRow>
+                    <TableCell align="center" colSpan={6}>
+                      <Typography>Selecione uma empresa</Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              )}
+              {isUserNotFound && empresaId && (
+                <TableNotFound filterProps={filterName}/>
               )}
             </Table>
           </TableContainer>
