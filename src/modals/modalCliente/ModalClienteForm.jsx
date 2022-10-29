@@ -111,6 +111,7 @@ export function ModalClienteForm({
               fullWidth
               type="number"
               label="cpf"
+              disabled={values.id_cliente}
               {...getFieldProps('cpf')}
               error={Boolean(touched.cpf && errors.cpf)}
               helperText={touched.cpf && errors.cpf}
