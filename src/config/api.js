@@ -1,7 +1,12 @@
 import axios from "axios"
 
+const prodURL = "http://20.226.176.143:4000"
+const devURL = "http://localhost:4000"
+
+const baseURL = devURL
+
 const api = axios.create({
-  baseURL: "http://20.226.176.143:4000"
+  baseURL
 })
 
 api.interceptors.request.use(
@@ -24,5 +29,5 @@ api.interceptors.response.use(response => response, async function (error) {
 export default api
 
 export const api_external = axios.create({
-  baseURL: "http://20.226.176.143:4000"
+  baseURL
 })
