@@ -29,7 +29,7 @@ const TABLE_HEAD = [
 
 export default function Saida() {
   const [page, setPage] = useState(0)
-  const [order, setOrder] = useState('asc')
+  const [order, setOrder] = useState('desc')
   const [orderBy, setOrderBy] = useState('data_saida')
   const [filterName, setFilterName] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(5)
