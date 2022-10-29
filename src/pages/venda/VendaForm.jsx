@@ -27,26 +27,24 @@ export function VendaForm({
   
   const { showSnack } = useContext(SnackBarContext)
 
-  const VendaSchema = Yup.object().shape({
-    cliente: Yup.object()
-    .typeError('Cliente é obrigatório')
-    .shape({
-      id_cliente: Yup.string().required("Cliente é obrigatório"),
-      nome: Yup.string().required("Cliente é obrigatório"),
-    }),
-    vendaList: Yup.array().min(1, "Nenhum produto adicionado").required()
-  })
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       cliente: cliente,
       vendaList: vendaList
     },
-    validationSchema: VendaSchema,
     onSubmit: async(values, actions) => {
       try {
         actions.setSubmitting(true)
+       
+        if(values.vendaList.length <= 0){
+          return showSnack("Nenhum produto adicionado na venda", "warning")
+        }
+
+        if(!values.cliente) {
+          return showSnack("Nenhum cliente selecionado na venda", "warning")
+        }
+
         const saidaList = await values.vendaList.map(item => {
           return {
             produto: item.id_produto,
@@ -62,9 +60,10 @@ export function VendaForm({
         await api.post('/venda', vendaFormatted)
         handleClear()
         showSnack("Venda realizada com sucesso", "success")
-        actions.setSubmitting(false)
       } catch(e) {
         showSnack("Falha ao realizar a venda", "error")
+      } finally {
+        actions.setSubmitting(false)
       }
     }
   })
