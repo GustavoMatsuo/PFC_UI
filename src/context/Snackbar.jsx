@@ -53,6 +53,7 @@ export const SnackBarProvider = ({ children }) => {
       <Snackbar
         open={contextValue.isOpen}
         sx={{ minWidth: '240px'}}
+        anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
       >
         <Alert 
           onClose={closeSnackBar} 
