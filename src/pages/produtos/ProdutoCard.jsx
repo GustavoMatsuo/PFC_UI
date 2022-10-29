@@ -4,7 +4,8 @@ import { styled } from '@mui/material/styles'
 import { fCurrency } from '../../utils/formatNumber'
 import { CardContextMenu } from 'src/components/CardContextMenu'
 
-import IMG_MOCK from '../../assets/images/barcode.svg'
+import IMG_MOCK from '../../assets/images/barcode-amico.svg'
+
 import Label from 'src/components/Label'
 
 const ProductImgStyle = styled('img')({
@@ -81,7 +82,7 @@ export function ProdutoCard({
           </Tooltip>
           <Typography component="span" variant="body1">
             R$&nbsp;
-            {desconto &&
+            {desconto && desconto > 0 &&
               <Typography
                 component="span"
                 variant="body1"
@@ -92,9 +93,9 @@ export function ProdutoCard({
                 }}
               >
                 {fCurrency(valor_unitario)}
-              </Typography>}
-              {fCurrency(valor_unitario - desconto)
+              </Typography>
             }
+            {fCurrency(valor_unitario - desconto)}
           </Typography>
         </Stack>
       </Stack>
