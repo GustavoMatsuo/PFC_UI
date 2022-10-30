@@ -54,7 +54,8 @@ export function UserForm({
       nome: isEdit? selectedUser.nome:'',
       email: isEdit? selectedUser.email:'',
       cargo: isEdit? selectedUser.cargo:'',
-      senha: uuidv4()
+      verificado: isEdit? selectedUser.verificado:false,
+      senha: uuidv4(),
       // confirmSenha: ,
     },
     validationSchema: isEdit? UserSchemaEdit:UserSchema,

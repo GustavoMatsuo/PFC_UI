@@ -114,6 +114,23 @@ export default function User() {
     )
   }
 
+  const handleDelete = async(id) => {
+    await api.delete('/usuario', { 
+      params: { id }
+    }).then(() => {
+      showSnack("Usuário deletado", "success")
+    }).catch(e => {
+      showSnack("Falha ao deletar usuário", "error")
+    })
+    getUserList(
+      rowsPerPage, 
+      page, 
+      filterName, 
+      order, 
+      orderBy
+    )
+  }
+
   const handleEditUser = (user) => {
     setSelectedUser(user)
     setIsEdit(true)
@@ -150,7 +167,7 @@ export default function User() {
               />
               <TableBody>
                 {userList.list.map((row) => {
-                  const { id_usuario, nome, email, cargo, status } = row
+                  const { id_usuario, nome, email, cargo, status, verificado } = row
 
                   return (
                     <TableRow
@@ -169,8 +186,8 @@ export default function User() {
                       <TableCell align="left">{email}</TableCell>
                       <TableCell align="left">{cargo}</TableCell>
                       <TableCell align="left">
-                        <Label variant="ghost" color={(!status && 'error') || 'success'}>
-                          {status? 'Ativo':'Inativo'}
+                        <Label variant="ghost" color={((!status || !verificado) && 'error') || 'success'}>
+                          {verificado? (status? 'Ativo':'Inativo') : 'Não verificado'}
                         </Label>
                       </TableCell>
 
@@ -180,6 +197,8 @@ export default function User() {
                           handleChangeStatus={() => handleChangeStatus(id_usuario)}
                           handleEdit={() => handleEditUser(row)}
                           hideStatus={email === userData.email}
+                          handleDelete={() => handleDelete(id_usuario)}
+                          showDelete={!verificado}
                         />
                       </TableCell>
                     </TableRow>
