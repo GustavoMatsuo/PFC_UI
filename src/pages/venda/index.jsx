@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useContext } from 'react'
 import {
   Card,
   Typography,
@@ -18,6 +18,7 @@ import Iconify from 'src/components/Iconify'
 import { fCurrency } from 'src/utils/formatNumber'
 import { VendaForm } from './VendaForm'
 import { alpha, useTheme } from '@mui/material/styles'
+import { SnackBarContext } from 'src/context/Snackbar'
 import IMG_MOCK_PROD from '../../assets/images/barcode-amico.svg'
 import IMG_MOCK from '../../assets/images/receipt-amico.svg'
 
@@ -47,6 +48,8 @@ export default function Venda() {
     }  
   }, [produtoRef])
 
+  const { showSnack } = useContext(SnackBarContext)
+
   const getProdutoList = async() => {
     const { data } = await api.get('/produto/simple')
     setProdutoList(data)
@@ -63,9 +66,17 @@ export default function Venda() {
 
   const plusProduto = () => {
     let newSelectedProduto = selectedProduto
-    newSelectedProduto.qtd = newSelectedProduto.qtd + 1
-    setSelectedProduto(newSelectedProduto)
-    handleAddProduto(newSelectedProduto)
+
+    produtoList.map(item => {
+      if(item.id_produto === newSelectedProduto.id_produto){
+        if(item.estoque <= newSelectedProduto.qtd) {
+          return showSnack("Produto sem estoque no sistema", "warning")
+        }
+        newSelectedProduto.qtd = newSelectedProduto.qtd + 1
+        setSelectedProduto(newSelectedProduto)
+        handleAddProduto(newSelectedProduto)
+      }
+    })
   }
 
   const removeProduto = () => {
@@ -84,6 +95,9 @@ export default function Venda() {
 
     produtoList.map(item => {
       if(item.codigo === produto){
+        if(item.estoque <= 0) {
+          return showSnack("Produto sem estoque no sistema", "warning")
+        } 
         findProduto = {
           ...item,
           qtd: 1
@@ -94,6 +108,10 @@ export default function Venda() {
     if(findProduto) {
       vendaList.map(item => {
         if(item.id_produto == findProduto.id_produto) {
+          if(item.qtd >= findProduto.estoque) {
+            findProduto = item
+            return showSnack("Produto sem estoque no sistema", "warning")
+          }
           findProduto = {
             ...item,
             qtd: item.qtd + 1
@@ -147,6 +165,7 @@ export default function Venda() {
     setVendaList([])
     setValorTotal(0)
     setDescontoTotal(0)
+    setSelectedProduto(null)
   }
 
   const theme = useTheme()
@@ -256,9 +275,14 @@ export default function Venda() {
                     alignItems: 'center' 
                   }}
                 >
-                  <IconButton onClick={minusProduto}>
+                  <IconButton onClick={minusProduto} disabled={selectedProduto.qtd === 1}>
                     <Iconify 
-                      sx={{color: theme.palette.primary.main}}
+                      sx={{
+                        color: selectedProduto.qtd === 1? 
+                          theme.palette.grey[500] 
+                          : 
+                          theme.palette.primary.main,
+                      }}
                       icon="eva:minus-circle-fill" 
                       width={36}
                       height={36} 

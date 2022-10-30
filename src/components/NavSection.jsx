@@ -58,7 +58,7 @@ function NavItem({ item, active }) {
   }
 
   return ( 
-    (item.role === userData.role || userData.role === Roles.ADM) &&
+    (item.role === userData.role || userData.role === Roles.ADM) && item.role !== Roles.ADM_GLOBAL &&
     <ListItemStyle
       component={RouterLink}
       to={path}

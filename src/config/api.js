@@ -3,7 +3,7 @@ import axios from "axios"
 const prodURL = "http://20.226.176.143:4000"
 const devURL = "http://localhost:4000"
 
-const baseURL = devURL
+const baseURL = prodURL
 
 const api = axios.create({
   baseURL
