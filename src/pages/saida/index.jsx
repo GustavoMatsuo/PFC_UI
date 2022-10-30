@@ -6,7 +6,8 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Grid
 } from '@mui/material'
 import Label from '../../components/Label'
 import Scrollbar from '../../components/Scrollbar'
@@ -17,6 +18,9 @@ import { TableNotFound } from 'src/components/TableNotFound'
 import { fCurrency } from 'src/utils/formatNumber'
 import { fDateTime } from 'src/utils/formatTime'
 import { debounce } from 'lodash'
+import { ModalCustom } from 'src/components/ModalCustom'
+import { SaidaForm } from './SaidaForm'
+import { PageHeaderList } from 'src/components/PageHeaderList'
 
 const TABLE_HEAD = [
   { id: 'produto', label: 'Produto', alignRight: false },
@@ -34,6 +38,7 @@ export default function Saida() {
   const [filterName, setFilterName] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const [saidaList, setSaidaList] = useState({list:[], total:0})
+  const [openModal, setOpenModal] = useState(false)
   
   useEffect(() => {
     getSaidaList(
@@ -90,6 +95,10 @@ export default function Saida() {
     )
   }
 
+  const handleClose = () => {
+    setOpenModal(false)
+  }
+
   const isSaidaNotFound = saidaList.list.length === 0
 
   return (
@@ -98,7 +107,9 @@ export default function Saida() {
         <TableToolbar 
           placeholder='Pesquisar Saida...' 
           filterName={filterName} 
-          onFilterName={handleFilterByName} 
+          onFilterName={handleFilterByName}
+          buttonRightLabel='Baixar lista'
+          buttonRight={() => setOpenModal(true)}
         />
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>
@@ -154,6 +165,17 @@ export default function Saida() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>
+      <ModalCustom
+        isOpen={openModal}
+        handleClose={handleClose}
+        modalWidth='550px'
+        content={
+          <Grid>
+            <PageHeaderList title='Saida'/>
+            <SaidaForm handleClose={handleClose} />
+          </Grid>
+        }   
+      />  
     </>
   )
 }

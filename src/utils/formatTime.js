@@ -22,6 +22,10 @@ export function fDateChartMonth(date) {
   return format(new Date(dateFormatted), 'MMM', { locale: ptBR }).toUpperCase()
 }
 
+export function fDateEn(date) {
+  return format(new Date(date), 'yyyy-MM-dd', { locale: ptBR })
+}
+
 export function fToNow(date) {
   return formatDistanceToNow(new Date(date), {
     addSuffix: true,
