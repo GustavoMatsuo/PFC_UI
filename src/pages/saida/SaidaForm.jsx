@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useContext } from 'react'
+import { useState, useContext } from 'react'
 import { useFormik, Form, FormikProvider } from 'formik'
 import { 
   TextField, 
@@ -20,14 +20,17 @@ SaidaForm.propTypes = {
   handleClose: PropTypes.func
 }
 
+let INITIAL_INICIO_DATE = new Date()
+INITIAL_INICIO_DATE = INITIAL_INICIO_DATE.setDate(INITIAL_INICIO_DATE.getDate() - 14)
+const INITIAL_FIM_DATE = new Date()
+
 export function SaidaForm({
   handleClose
 }) {
-  const { showSnack } = useContext(SnackBarContext)
+  const [inicioDate, setInicioDate] = useState(INITIAL_INICIO_DATE)
+  const [fimDate, setFimDate] = useState(INITIAL_FIM_DATE)
 
-  let inicioDate = new Date()
-  inicioDate = inicioDate.setDate(inicioDate.getDate() - 14)
-  const fimDate = new Date()
+  const { showSnack } = useContext(SnackBarContext)
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -38,9 +41,9 @@ export function SaidaForm({
     onSubmit: async(values, actions) => {
       try {
         actions.setSubmitting(true)
-        if(values.inicio !== null && values.fim !== null) {
-          const inicio = fDateEn(values.inicio)
-          const fim = fDateEn(values.fim)
+        if(inicioDate !== null && fimDate !== null) {
+          const inicio = fDateEn(inicioDate)
+          const fim = fDateEn(fimDate)
           const filename = `saida_${fDateSimple(new Date())}.xlsx`
 
           const { data } = await api.get('/saida/relatorio', {
@@ -85,9 +88,9 @@ export function SaidaForm({
             <MobileDatePicker
               label="Data início"
               inputFormat="dd/MM/yyyy"
-              value={values.inicio}
-              maxDate={values.fim}
-              onChange={value => setFieldValue("inicio", value)}
+              value={inicioDate}
+              maxDate={fimDate}
+              onChange={value => setInicioDate(value)}
               renderInput={(params) => 
                 <TextField 
                   fullWidth 
@@ -105,9 +108,9 @@ export function SaidaForm({
               <MobileDatePicker
                 label="Data fim"
                 inputFormat="dd/MM/yyyy"
-                value={values.fim}
-                minDate={values.inicio}
-                onChange={value => setFieldValue("fim", value)}
+                value={fimDate}
+                minDate={inicioDate}
+                onChange={value => setFimDate(value)}
                 renderInput={(params) => 
                   <TextField 
                     fullWidth 
