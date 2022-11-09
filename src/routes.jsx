@@ -1,4 +1,3 @@
-import { Suspense } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
 import { PrivateRoute } from './components/PrivateRoute'
 import { Roles } from './layouts/dashboard/NavConfig'
