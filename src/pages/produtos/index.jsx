@@ -20,8 +20,9 @@ import { ProdutoSideBar } from './ProdutoSideBar'
 const SearchStyle = styled(TextField)(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   borderRadius: '8px',
+  boxShadow: theme.customShadows.z8,
   '& fieldset': {
-    border: 'none'
+    borderWidth: `0px !important`
   },
 }))
 
