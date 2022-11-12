@@ -156,7 +156,7 @@ export default function Entrada() {
   const handleAddEntrada = (entrada) => {
     setNewEntradaList(prevState => (
       [...prevState, {
-        produto: entrada.produto,
+        produto: entrada.produto.id_produto,
         produto_nome: entrada.produto_nome,
         qtd: entrada.qtd,
         valor_unitario: entrada.valor_unitario
