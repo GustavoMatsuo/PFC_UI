@@ -41,12 +41,26 @@ export function ProdutoForm({
   const { showSnack } = useContext(SnackBarContext)
 
   const ProdutoSchema = Yup.object().shape({
-    nome: Yup.string().required("Nome é obrigatório").min(3, "Nome esta muito curto"),
-    codigo: Yup.string().required("Código de barras é obrigatório").min(5, "Código de barras esta muito curto"),
+    nome:
+      Yup.string()
+      .required("Nome é obrigatório")
+      .min(3, "Nome esta muito curto"),
+    codigo: 
+      Yup.string()
+      .required("Código de barras é obrigatório")
+      .min(5, "Código de barras esta muito curto"),
     fornecedor: Yup.string().required('Fornecedor é obrigatório'),
-    valor_unitario: Yup.number().required("Valor unitário é obrigatório"),
-    estoque_minimo: Yup.number().required("Estoque minimo é obrigatório"),
-    categoria: Yup.string().required("Categoria é obrigatório")
+    valor_unitario: 
+      Yup.number()
+      .typeError("Valor unitário precisa ser um numero")
+      .required("Valor unitário é obrigatório"),
+    estoque_minimo: 
+      Yup.number()
+      .typeError("Estoque minimo precisa ser um numero")
+      .required("Estoque minimo é obrigatório"),
+    categoria: 
+      Yup.string()
+      .required("Categoria é obrigatório"),
   })
 
   const formik = useFormik({
@@ -79,9 +93,12 @@ export function ProdutoForm({
   const { errors, touched, isSubmitting, handleSubmit, getFieldProps, values } = formik
 
   const descontoMsg = 
+    !!values.desconto &&
+    values.desconto.length > 0 &&
+    !Number.parseFloat(values.desconto)? "Desconto precisa ser um numero" 
+    :
     Number.parseFloat(values.desconto) > Number.parseFloat(values.valor_unitario)? 
       "Não é possivel dar desconto maior que o total":""
-
 
   return (
     <FormikProvider value={formik}>
@@ -119,7 +136,7 @@ export function ProdutoForm({
                 error={Boolean(touched.fornecedor && errors.fornecedor)}
               >
                 {fornecedorList.map(item => (
-                  <MenuItem key={item.id_fornecedor} value={item.id_fornecedor}>
+                  <MenuItem key={item.id_fornecedor} value={item.id_fornecedor} disabled={!item.status}>
                     {item.nome}
                   </MenuItem>
                 ))}
@@ -132,7 +149,6 @@ export function ProdutoForm({
           <Grid item xs={4}>
             <TextField
               fullWidth
-              type="number"
               label="Valor Unitário"
               InputProps={{
                 startAdornment: <InputAdornment position="start">R$</InputAdornment>,
@@ -145,7 +161,6 @@ export function ProdutoForm({
           <Grid item xs={4}>
             <TextField
               fullWidth
-              type="number"
               label="Estoque Minimo"
               {...getFieldProps('estoque_minimo')}
               error={Boolean(touched.estoque_minimo && errors.estoque_minimo)}
@@ -155,8 +170,7 @@ export function ProdutoForm({
           <Grid item xs={4}>
             <TextField
               fullWidth
-              type="number"
-              label="Desconto (R$)"
+              label="Desconto (R$) (Opcional)"
               InputProps={{
                 startAdornment: <InputAdornment position="start">R$</InputAdornment>,
               }}
