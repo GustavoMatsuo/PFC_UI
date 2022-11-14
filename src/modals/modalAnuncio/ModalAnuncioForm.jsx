@@ -118,7 +118,7 @@ export function ModalAnuncioForm({
               </Grid>
               <Grid item xs={12}>
                 <Button fullWidth size="large" onClick={handleSubmitAfterConfirm} variant="contained">
-                  COMPRIENDO, CADASTRAR ANÚNCIO
+                  COMPREENDO, CADASTRAR ANÚNCIO
                 </Button>
               </Grid>
           </Grid>
