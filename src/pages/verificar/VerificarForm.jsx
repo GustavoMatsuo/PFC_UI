@@ -6,7 +6,7 @@ import { useFormik, Form, FormikProvider } from 'formik'
 import { Stack, TextField, IconButton, InputAdornment, Alert } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Iconify from '../../components/Iconify'
-import api from '../../config/api'
+import { api_external } from '../../config/api'
 
 VerificarForm.propTypes = {
   token: PropTypes.string
@@ -37,7 +37,7 @@ export function VerificarForm({ token }) {
             Authorization: token
           }
         }
-        await api.put('/usuario/newPassword', {senha: values.senha}, config)
+        await api_external.put('/usuario/newPassword', {senha: values.senha}, config)
         navigate('/login', { replace: true })
       }catch(e) {
         const { data, status } = e.response

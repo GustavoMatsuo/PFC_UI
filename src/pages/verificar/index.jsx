@@ -2,9 +2,9 @@ import { styled } from '@mui/material/styles'
 import { Typography, Card } from '@mui/material'
 import useResponsive from '../../hooks/useResponsive'
 import { useNavigate, useParams } from 'react-router-dom'
-import AnimatedBackground from 'src/components/animatedBackground'
+import AnimatedBackground from '../../components/animatedBackground'
 import { useEffect } from 'react'
-import { api_external } from 'src/config/api'
+import { api_external } from '../../config/api'
 import { VerificarForm } from './VerificarForm'
 
 const RootStyle = styled('div')(({ theme }) => ({
