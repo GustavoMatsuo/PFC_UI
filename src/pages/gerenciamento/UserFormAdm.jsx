@@ -44,9 +44,6 @@ export function UserForm({
     email: Yup.string().email('Email deve ser um endereço de e-mail válido')
       .required('Email é obrigatório'),
     cargo: Yup.string().required('Cargo é obrigatório'),
-    // senha: Yup.string().min(3, "Senha esta muito curta"),
-    // confirmSenha: Yup.string()
-    //   .oneOf([Yup.ref('senha'), null], 'As senhas devem ser iguais')
   })
 
   const formik = useFormik({
@@ -58,7 +55,6 @@ export function UserForm({
       cargo: isEdit? selectedUser.cargo:'',
       verificado: isEdit? selectedUser.verificado:false,
       senha: uuidv4()
-      // confirmSenha: '',
     },
     validationSchema: isEdit? UserSchemaEdit:UserSchema,
     onSubmit: async(values, actions) => {
@@ -88,7 +84,6 @@ export function UserForm({
         <Stack spacing={3}>
           <TextField
             fullWidth
-            autoComplete="nome"
             type="text"
             label="Nome"
             {...getFieldProps('nome')}
@@ -97,7 +92,6 @@ export function UserForm({
           />
           <TextField
             fullWidth
-            autoComplete="email"
             type="email"
             label="Email"
             disabled={isEdit}
@@ -116,47 +110,12 @@ export function UserForm({
             >
               <MenuItem value='employee'>Funcionário</MenuItem>
               <MenuItem value='admin'>Administrador</MenuItem>
+              <MenuItem value='admin global'>Administrador Global</MenuItem>
             </Select>
             <FormHelperText error={Boolean(touched.cargo && errors.cargo)}>
               {touched.cargo && errors.cargo}
             </FormHelperText>
           </FormControl>
-          {/* <TextField
-            fullWidth
-            autoComplete="current-password"
-            type={showPassword ? 'text' : 'password'}
-            label="Senha"
-            {...getFieldProps('senha')}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            error={Boolean(touched.senha && errors.senha)}
-            helperText={touched.senha && errors.senha}
-          />
-          <TextField
-            fullWidth
-            autoComplete="current-password"
-            type={showConfirmPassword ? 'text' : 'password'}
-            label="Confirmar Senha"
-            {...getFieldProps('confirmSenha')}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
-                    <Iconify icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            error={Boolean(touched.confirmSenha && errors.confirmSenha)}
-            helperText={touched.confirmSenha && errors.confirmSenha}
-          /> */}
         </Stack>
 
         <LoadingButton 
