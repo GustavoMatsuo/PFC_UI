@@ -94,7 +94,8 @@ export function ProdutoForm({
 
   const descontoMsg = 
     !!values.desconto &&
-    values.desconto.length > 0 &&
+    values.desconto.length > 0 && 
+    values.desconto != 0 &&
     !Number.parseFloat(values.desconto)? "Desconto precisa ser um numero" 
     :
     Number.parseFloat(values.desconto) > Number.parseFloat(values.valor_unitario)? 
