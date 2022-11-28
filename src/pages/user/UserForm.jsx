@@ -115,42 +115,6 @@ export function UserForm({
               {touched.cargo && errors.cargo}
             </FormHelperText>
           </FormControl>
-          {/* <TextField
-            fullWidth
-            autoComplete="current-password"
-            type={showPassword ? 'text' : 'password'}
-            label="Senha"
-            {...getFieldProps('senha')}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            error={Boolean(touched.senha && errors.senha)}
-            helperText={touched.senha && errors.senha}
-          />
-          <TextField
-            fullWidth
-            autoComplete="current-password"
-            type={showConfirmPassword ? 'text' : 'password'}
-            label="Confirmar Senha"
-            {...getFieldProps('confirmSenha')}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
-                    <Iconify icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            error={Boolean(touched.confirmSenha && errors.confirmSenha)}
-            helperText={touched.confirmSenha && errors.confirmSenha}
-          /> */}
         </Stack>
 
         <LoadingButton 
