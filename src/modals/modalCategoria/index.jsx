@@ -49,6 +49,7 @@ export function ModalCategoria({ isOpen, handleClose }) {
   }
 
   const handleCloseCategoria = () => {
+    setIsEdit(false)
     closeForm()
     handleClose()
   }
@@ -100,12 +101,12 @@ export function ModalCategoria({ isOpen, handleClose }) {
               }}
             >
               <div>
-                <ModalCategoriaForm
+                {isFormOpen && <ModalCategoriaForm
                   isEdit={isEdit}
                   closeForm={closeForm}
                   selectedCategoria={selectedCategoria}
                   getCategoriaList={getCategoriaList}
-                />
+                />}
               </div>
             </Grow>
             <List
