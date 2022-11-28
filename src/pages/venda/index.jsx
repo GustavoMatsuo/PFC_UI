@@ -157,8 +157,8 @@ export default function Venda() {
     const descontoTotal = newList.reduce(
       (prev, current) => prev + (current.desconto * current.qtd), 0
     )
-    setValorTotal(valorTotal)
-    setDescontoTotal(descontoTotal)
+    setValorTotal(fCurrency(valorTotal))
+    setDescontoTotal(fCurrency(descontoTotal))
   }
 
   const clearVenda = () => {

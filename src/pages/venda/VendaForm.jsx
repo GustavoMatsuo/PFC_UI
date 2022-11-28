@@ -106,7 +106,7 @@ export function VendaForm({
             {Item('Desconto', desconto)}
           </Grid>
           <Grid item xs={12} display='flex'>
-            {Item('Total', (subtotal - desconto))}
+            {Item('Total', fCurrency(subtotal - desconto))}
           </Grid>
           <Grid item xs={12}>
             <LoadingButton 
